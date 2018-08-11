@@ -1,0 +1,36 @@
+{
+  "name": "yx-jam-ld-42",
+  "version": "0.0.1",
+  "description": "My LD42 game, Unlockr.",
+  "main": "index.js",
+  "scripts": {
+    "build": "npm run clean && tsc && node build.js",
+    "clean": "rimraf build",
+    "serve": "node serve.js",
+    "develop": "nodemon"
+  },
+  "keywords": [
+    "html5",
+    "css",
+    "js",
+    "phaser",
+    "lowrez"
+  ],
+  "author": "Fabio Y. Goto <lab@yuiti.com.br>",
+  "license": "MIT",
+  "dependencies": {
+    "async": "^2.6.1",
+    "copy": "^0.3.2",
+    "dat.gui": "^0.7.2",
+    "dotenv": "^6.0.0",
+    "express": "^4.16.3",
+    "phaser-ce": "^2.11.0"
+  },
+  "devDependencies": {
+    "node-sass": "^4.9.3",
+    "nodemon": "^1.18.3",
+    "npm-run-all": "^4.1.3",
+    "rimraf": "^2.6.2",
+    "typescript": "^3.0.1"
+  }
+}

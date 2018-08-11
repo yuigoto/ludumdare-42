@@ -1,0 +1,12 @@
+{
+  "verbose": true,
+  "watch": [
+    "src"
+  ],
+  "ignore": [
+    "node_modules/**",
+    "build"
+  ],
+  "ext": "*",
+  "exec": "npm run build && npm run serve"
+}

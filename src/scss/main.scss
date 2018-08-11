@@ -1,0 +1,43 @@
+
+@import url('https://fonts.googleapis.com/css?family=Rubik');
+
+*,
+*::after,
+*::before {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body {
+  width: 100%;
+  height: 100%;
+  font-family: 'Rubik', sans-serif;
+  font-size: 16px;
+}
+
+#ld42-wrap {
+  width: 100%;
+  height: 100%;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+#ld42-main {
+  margin: 2rem auto 4rem;
+}
+
+#ld42-game {
+  width: 640px;
+  height: 640px;
+  margin: auto auto 1rem;
+  padding: 0;
+  display: block;
+  cursor: none;
+  box-shadow: 0 0 20px 0 rgba(0, 0, 0, .5);
+}
+
