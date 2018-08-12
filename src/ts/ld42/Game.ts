@@ -22,14 +22,15 @@ namespace LD42 {
           description = document.getElementById("ld42-description"),
           controls    = document.getElementById("ld42-controls"),
           copy        = document.getElementById("ld42-copy");
-      name.innerHTML        = "UNLOCKR <small>v0.0.1</small>";
-      description.innerHTML = "A simple, minimalistic game about unlocking and escaping an infinite corridor";
-      controls.innerHTML    = "controls.innerHTML";
+      //name.innerHTML        = "UNLOCKR <small>v0.0.1</small>";
+      //description.innerHTML = "A simple, minimalistic game about unlocking and escaping an infinite corridor";
+      //controls.innerHTML    = "controls.innerHTML";
       copy.innerHTML        = "©2018 YUITI";
 
       // Set state
       this.state.add("Boot", Boot, false);
       this.state.add("Preload", Preload, false);
+      this.state.add("Test", Test, false);
 
       // Fires game
       this.state.start("Boot");

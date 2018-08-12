@@ -98,7 +98,7 @@ namespace LD42 {
      */
     create() {
       // this.state.start("Main");
-      // this.state.start("Test");
+      this.state.start("Test");
     }
   }
 }

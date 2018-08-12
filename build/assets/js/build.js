@@ -19,6 +19,7 @@ var Controls;
     var Control = (function (_super) {
         __extends(Control, _super);
         function Control(game, key) {
+            if (key === void 0) { key = null; }
             var _this = _super.call(this, game, -1280, -1280, key || "controls") || this;
             _this.controls = new Controls.ControlItem();
             _this.keyboard = _this.game.input.keyboard;
@@ -94,6 +95,8 @@ var Controls;
 })(Controls || (Controls = {}));
 var Helpers;
 (function (Helpers) {
+    Helpers.DEG_TO_RAD = Math.PI / 180;
+    Helpers.RAD_TO_DEG = 180 / Math.PI;
     function approach(start, end, step) {
         if (start > end) {
             return Math.max(start - step, end);
@@ -293,18 +296,92 @@ var LD42;
             var _this = _super.call(this, 64, 64, Phaser.CANVAS, "ld42-game", null, true, false) || this;
             document.title = "UNLOCKR : v0.0.1 : by YUITI";
             var name = document.getElementById("ld42-name"), description = document.getElementById("ld42-description"), controls = document.getElementById("ld42-controls"), copy = document.getElementById("ld42-copy");
-            name.innerHTML = "UNLOCKR <small>v0.0.1</small>";
-            description.innerHTML = "A simple, minimalistic game about unlocking and escaping an infinite corridor";
-            controls.innerHTML = "controls.innerHTML";
             copy.innerHTML = "©2018 YUITI";
             _this.state.add("Boot", LD42.Boot, false);
             _this.state.add("Preload", LD42.Preload, false);
+            _this.state.add("Test", LD42.Test, false);
             _this.state.start("Boot");
             return _this;
         }
         return Game;
     }(Phaser.Game));
     LD42.Game = Game;
+})(LD42 || (LD42 = {}));
+var LD42;
+(function (LD42) {
+    var approach = Helpers.approach;
+    var Dial = (function (_super) {
+        __extends(Dial, _super);
+        function Dial(game, x, y) {
+            var _this = _super.call(this, game, x, y, "spr_lock", 0) || this;
+            _this.direction = 0;
+            _this.turn = 0;
+            _this.speed = 0;
+            _this.speed_max = 8;
+            _this.factor_accel = 0.1;
+            _this.factor_decel = 0.5;
+            _this.sound_time = 0;
+            _this.sound_group = {};
+            _this.loadSounds();
+            _this.anchor.setTo(0.5, 0.5);
+            game.add.existing(_this);
+            return _this;
+        }
+        Dial.prototype.loadSounds = function () {
+            this.sound_group.dial_01 = this.game.add.sound("snd_dial_01", .5, false);
+            this.sound_group.dial_02 = this.game.add.sound("snd_dial_02", .5, false);
+            this.sound_group.dial_03 = this.game.add.sound("snd_dial_03", .5, false);
+            this.sound_group.dial_04 = this.game.add.sound("snd_dial_04", .5, false);
+            this.sound_group.dial_05 = this.game.add.sound("snd_dial_05", .5, false);
+            this.sound_group.dial_06 = this.game.add.sound("snd_dial_06", .5, false);
+        };
+        Dial.prototype.handleTurn = function () {
+            if (this.direction != 0) {
+                this.speed = approach(this.speed, this.speed_max * this.direction, this.factor_accel);
+            }
+            else {
+                this.speed = approach(this.speed, 0, this.factor_decel);
+            }
+            this.turn = Math.floor(this.speed);
+            this.angle += this.turn;
+            if (this.turn != 0) {
+                if (this.sound_time == 0) {
+                    switch (Math.floor(Math.random() * 6)) {
+                        case 2:
+                            this.sound_group.dial_02.play();
+                            break;
+                        case 3:
+                            this.sound_group.dial_03.play();
+                            break;
+                        case 4:
+                            this.sound_group.dial_04.play();
+                            break;
+                        case 5:
+                            this.sound_group.dial_05.play();
+                            break;
+                        case 6:
+                            this.sound_group.dial_06.play();
+                            break;
+                        default:
+                            this.sound_group.dial_01.play();
+                            break;
+                    }
+                    this.sound_time = Math.round(8 * (1.5 - (Math.abs(this.turn) / this.speed_max)));
+                }
+                else {
+                    this.sound_time -= 1;
+                }
+            }
+            else {
+                this.sound_time = 0;
+            }
+        };
+        Dial.prototype.update = function () {
+            this.handleTurn();
+        };
+        return Dial;
+    }(Phaser.Sprite));
+    LD42.Dial = Dial;
 })(LD42 || (LD42 = {}));
 var LD42;
 (function (LD42) {
@@ -373,9 +450,63 @@ var LD42;
             }
         };
         Preload.prototype.create = function () {
+            this.state.start("Test");
         };
         return Preload;
     }(Phaser.State));
     LD42.Preload = Preload;
+})(LD42 || (LD42 = {}));
+var LD42;
+(function (LD42) {
+    var Control = Controls.Control;
+    var Test = (function (_super) {
+        __extends(Test, _super);
+        function Test() {
+            var _this = _super !== null && _super.apply(this, arguments) || this;
+            _this.degrees = 0;
+            return _this;
+        }
+        Test.prototype.handleDial = function () {
+            var controls = this.controller.controls;
+            this.dial.direction = controls.right.hold - controls.left.hold;
+        };
+        Test.prototype.create = function () {
+            this.count = 0;
+            this.controller = new Control(this.game, "controller_p1");
+            this.game_bg = this.game.add.tileSprite(0, 0, 64, 64, "bg_main");
+            this.game_bg.alpha = 0.5;
+            this.dial = new LD42.Dial(this.game, this.game.world.centerX, this.game.world.centerY);
+            this.soundGroup = {};
+            this.uiGroup = {};
+            this.soundGroup.door_01 = this.game.add.sound("snd_door_01", 0.5, false);
+            this.uiGroup.dialText = this.game.add.text(0, 0, this.degrees.toString(), {
+                align: "center",
+                fill: "#000",
+                font: "yx_ui",
+                fontSize: 8,
+                fontWeight: 400
+            });
+            this.uiGroup.dialText.x = this.game.world.centerX - this.uiGroup.dialText.width / 2;
+            this.uiGroup.dialText.y = this.game.world.centerY - this.uiGroup.dialText.height / 2;
+        };
+        Test.prototype.update = function () {
+            this.handleDial();
+            this.game_bg.alpha = Math.abs(1 * Math.sin(this.count / 8));
+            if (this.dial.turn != 0) {
+                this.degrees += this.dial.turn;
+            }
+            if (Math.abs(this.degrees) < 5
+                && this.dial.direction != 0
+                && !this.soundGroup.door_01.isPlaying) {
+                this.soundGroup.door_01.play();
+            }
+            this.count += 0.5;
+            this.uiGroup.dialText.text = Math.abs(this.degrees).toString();
+            this.uiGroup.dialText.x = this.game.world.centerX - this.uiGroup.dialText.width / 2;
+            this.uiGroup.dialText.y = this.game.world.centerY - this.uiGroup.dialText.height / 2;
+        };
+        return Test;
+    }(Phaser.State));
+    LD42.Test = Test;
 })(LD42 || (LD42 = {}));
 //# sourceMappingURL=build.js.map

@@ -28,7 +28,7 @@ namespace Controls {
      * @param {string} key
      *    Sprite instance name
      */
-    constructor(game: Phaser.Game, key: string) {
+    constructor(game: Phaser.Game, key: string = null) {
       super(game, -1280, -1280, key || "controls");
       this.controls = new ControlItem();
       this.keyboard = this.game.input.keyboard;

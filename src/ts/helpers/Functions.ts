@@ -9,6 +9,16 @@ namespace Helpers {
    */
 
   /**
+   * Pre-defined constant for easy degree/radian conversion.
+   */
+  export const DEG_TO_RAD: number = Math.PI / 180;
+
+  /**
+   * Pre-defined constant for easy radian/degree conversion.
+   */
+  export const RAD_TO_DEG: number = 180 / Math.PI;
+
+  /**
    * Shifts one value towards another by step.
    *
    * Useful for simple acceleration.
