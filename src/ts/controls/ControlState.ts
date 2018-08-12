@@ -2,23 +2,21 @@ namespace Controls {
   /**
    * LD42 : Controls/ControlState
    * --------------------------------------------------------------------
-   * Represents a single control state.
-   *
-   * Implements the basic properties of a control:
-   * - `hold` (number): if the button is being held (1) or not (0);
-   * - `pressed` (boolean): button "just pressed" state;
-   * - `release` (boolean): button "just released" state;
-   * - `previous` (number): previous button `hold` state;
-   * - `key` (number): keyboard key (or joypad button) value;
+   * Implements the basic properties of a single control state.
    *
    * @author    Fabio Y. Goto <lab@yuiti.com.br>
    * @since     0.0.1
    */
   export interface ControlState {
+    // If the control is being held down (1) or not (0)
     hold: number;
+    // "Just pressed" state
     pressed: boolean;
+    // "Just released" state
     release: boolean;
+    // Previous "hold" state
     previous: number;
+    // Keyboard key (or joypad button) value
     key: number;
   }
 }

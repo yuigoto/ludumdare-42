@@ -1,30 +1,48 @@
 namespace LD42 {
+  /**
+   * LD42 : LD42/States/Boot
+   * --------------------------------------------------------------------
+   * Game bootstrapping state.
+   *
+   * @author    Fabio Y. Goto <lab@yuiti.com.br>
+   * @since     0.0.1
+   */
   export class Boot extends Phaser.State {
     /**
-     * Preloads state assets.
+     * Preload state assets.
      */
     preload() {
-      this.load.image("loader_in", "assets/ui/loader_in.png", false);
-      this.load.image("loader_out", "assets/ui/loader_out.png", false);
+      // Set scale mode and set to render as crisp as possible
+      this.game.scale.scaleMode  = Phaser.ScaleManager.SHOW_ALL;
+      Phaser.Canvas.setImageRenderingCrisp(this.game.canvas);
 
-      // Stretch game
-      this.game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
+      // Loads loader images
+      this.load.image("loader_in", "assets/img/ui/loader_in.png", false);
+      this.load.image("loader_out", "assets/img/ui/loader_out.png", false);
     }
 
+    /**
+     * Executes.
+     */
     create() {
-      // 1 pointer is enough, no multitouch here
+      // We don't need multitouch, so 1 pointer is enough
       this.input.maxPointers = 1;
 
-      // Pause if loses focus
+      // No smoothing on our stage
+      this.stage.smoothed = false;
+
+      // Pause game if tab/window loses focus
       this.stage.disableVisibilityChange = true;
 
-      // Desktop/mobile stuff
       if (this.game.device.desktop) {
+        // Desktop-specific stuff
         this.scale.pageAlignHorizontally = true;
       } else {
+        // Mobile-specific stuff
       }
 
-      // Start preloader
+      // Fire preloader state
+      this.state.start("Preload", true, false);
     }
   }
 }

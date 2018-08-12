@@ -7,7 +7,6 @@
  * @since     0.0.1
  */
 window.onload = () => {
-  // Game on!
+  // GAME ON!
   const game = new LD42.Game();
-  game.stage.smoothed = false;
 };

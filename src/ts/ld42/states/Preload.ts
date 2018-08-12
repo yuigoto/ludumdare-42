@@ -1,48 +1,28 @@
 namespace LD42 {
+  /**
+   * LD42 : LD42/States/Preload
+   * --------------------------------------------------------------------
+   * Preloads game assets.
+   *
+   * @author    Fabio Y. Goto <lab@yuiti.com.br>
+   * @since     0.0.1
+   */
   export class Preload extends Phaser.State {
     /**
-     * Preload bar sprite handle.
+     * Preload bar sprite.
      */
     preloadBar: Phaser.Sprite;
 
     /**
-     * Preload bar sprite outer.
+     * Preload bar wrapper.
      */
     preloadOut: Phaser.Sprite;
-
-    // Lifecycle methods
-    // ------------------------------------------------------------------
-
-    /**
-     * Preloads state/game.
-     */
-    preload() {
-      // Set preloader
-      this.setLoaderImage();
-
-      // TODO: Get assets list
-
-      // TODO: Load images
-
-      // TODO: Load sounds
-
-      // TODO: Load spritesheets (if used)
-
-      // TODO: Google Fonts or Local Fonts
-    }
-
-    /**
-     * Runs the state.
-     */
-    create() {
-      // this.state.start("Main");
-    }
 
     // Methods
     // ------------------------------------------------------------------
 
     /**
-     * Sets the preloader sprites.
+     * Sets preloader sprites.
      */
     setLoaderImage() {
       // Wrapper
@@ -66,6 +46,59 @@ namespace LD42 {
 
       // Set as preloader sprite
       this.load.setPreloadSprite(this.preloadBar, 0);
+    }
+
+    // Lifecycle Methods
+    // ------------------------------------------------------------------
+
+    /**
+     * Handles preloading of the assets.
+     */
+    preload() {
+      // Set preloader images
+      this.setLoaderImage();
+
+      // Uses Assets to load assets
+
+      // Images
+      for (let image of Assets.image) {
+        if (!image.ignore) {
+          this.load.image(image.name, image.file, image.overwrite);
+        }
+      }
+
+      // Sounds
+      for (let sound of Assets.sound){
+        if (!sound.ignore) {
+          this.load.audio(sound.name, sound.file, sound.autoDecode);
+        }
+      }
+
+      // Spritesheet
+      for (let spritesheet of Assets.spritesheet) {
+        if (!spritesheet.ignore) {
+          this.load.spritesheet(
+            spritesheet.name,
+            spritesheet.file,
+            spritesheet.frameWidth,
+            spritesheet.frameHeight,
+            spritesheet.frameMax,
+            spritesheet.margin,
+            spritesheet.spacing,
+            spritesheet.skipFrames
+          );
+        }
+      }
+
+      // TODO: Load fonts here
+    }
+
+    /**
+     * Fires up the state.
+     */
+    create() {
+      // this.state.start("Main");
+      // this.state.start("Test");
     }
   }
 }

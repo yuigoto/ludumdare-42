@@ -1,0 +1,7 @@
+{
+  "name": "UNLOCKR",
+  "version": "0.0.1",
+  "description": "A simple, minimalistic game about unlocking and escaping an infinite corridor",
+  "controls": "L/R | A/D | LT/RT | You choose",
+  "copyright": "©2018 Fabio Y. Goto"
+}
