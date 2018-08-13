@@ -90,6 +90,18 @@ namespace LD42 {
         }
       }
 
+      // Bitmap fonts
+      for (let font of Assets.bitmapfont) {
+        if (!font.ignore) {
+          this.load.bitmapFont(
+            font.name,
+            font.texture,
+            font.atlas,
+            font.atlasData
+          );
+        }
+      }
+
       // TODO: Load fonts here
     }
 
@@ -98,7 +110,8 @@ namespace LD42 {
      */
     create() {
       // this.state.start("Main");
-      this.state.start("Test");
+      // this.state.start("Test");
+      this.state.start("Main");
     }
   }
 }

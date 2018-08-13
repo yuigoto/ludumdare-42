@@ -11,6 +11,7 @@ namespace Interfaces {
   export interface AssetList {
     image: Array<AssetTypeImage>,
     sound: Array<AssetTypeSound>,
-    spritesheet: Array<AssetTypeSpritesheet>
+    spritesheet: Array<AssetTypeSpritesheet>,
+    bitmapfont: Array<AssetTypeBitmapFont>
   }
 }

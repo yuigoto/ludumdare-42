@@ -19,8 +19,26 @@ namespace LD42 {
         ignore: false
       },
       {
-        name: "spr_door",
-        file: "assets/img/sprite/spr_door.png",
+        name: "ui_wall",
+        file: "assets/img/bg/ui_wall.png",
+        overwrite: false,
+        ignore: false
+      },
+      {
+        name: "ui_wall_over",
+        file: "assets/img/bg/ui_wall_over.png",
+        overwrite: false,
+        ignore: false
+      },
+      {
+        name: "spr_door_l",
+        file: "assets/img/sprite/spr_door_l.png",
+        overwrite: false,
+        ignore: false
+      },
+      {
+        name: "spr_door_r",
+        file: "assets/img/sprite/spr_door_r.png",
         overwrite: false,
         ignore: false
       },
@@ -35,6 +53,15 @@ namespace LD42 {
     // Sounds
     // ------------------------------------------------------------------
     sound: [
+      {
+        name: "snd_bell_01",
+        file: [
+          "assets/sound/bell-01.mp3",
+          "assets/sound/bell-01.ogg"
+        ],
+        autoDecode: false,
+        ignore: false
+      },
       {
         name: "snd_dial_01",
         file: [
@@ -187,6 +214,114 @@ namespace LD42 {
         ],
         autoDecode: false,
         ignore: false
+      },
+      {
+        name: "snd_lock_01",
+        file: [
+          "assets/sound/lock-01.mp3",
+          "assets/sound/lock-01.ogg"
+        ],
+        autoDecode: false,
+        ignore: false
+      },
+      {
+        name: "snd_lock_02",
+        file: [
+          "assets/sound/lock-02.mp3",
+          "assets/sound/lock-02.ogg"
+        ],
+        autoDecode: false,
+        ignore: false
+      },
+      {
+        name: "snd_lock_03",
+        file: [
+          "assets/sound/lock-03.mp3",
+          "assets/sound/lock-03.ogg"
+        ],
+        autoDecode: false,
+        ignore: false
+      },
+      {
+        name: "snd_lock_04",
+        file: [
+          "assets/sound/lock-04.mp3",
+          "assets/sound/lock-04.ogg"
+        ],
+        autoDecode: false,
+        ignore: false
+      },
+      {
+        name: "ld42_song",
+        file: [
+          "assets/music/ld42-kronos.mp3",
+          "assets/music/ld42-kronos.ogg"
+        ],
+        autoDecode: false,
+        ignore: false
+      },
+      {
+        name: "vox_unlockr_01",
+        file: [
+          "assets/sound/vox_unlockr_01.mp3",
+          "assets/sound/vox_unlockr_01.ogg"
+        ],
+        autoDecode: false,
+        ignore: false
+      },
+      {
+        name: "vox_unlockr_02",
+        file: [
+          "assets/sound/vox_unlockr_02.mp3",
+          "assets/sound/vox_unlockr_02.ogg"
+        ],
+        autoDecode: false,
+        ignore: false
+      },
+      {
+        name: "vox_unlockr_03",
+        file: [
+          "assets/sound/vox_unlockr_03.mp3",
+          "assets/sound/vox_unlockr_03.ogg"
+        ],
+        autoDecode: false,
+        ignore: false
+      },
+      {
+        name: "vox_wall_01",
+        file: [
+          "assets/sound/vox_wall_01.mp3",
+          "assets/sound/vox_wall_01.ogg"
+        ],
+        autoDecode: false,
+        ignore: false
+      },
+      {
+        name: "vox_wall_02",
+        file: [
+          "assets/sound/vox_wall_02.mp3",
+          "assets/sound/vox_wall_02.ogg"
+        ],
+        autoDecode: false,
+        ignore: false
+      },
+      {
+        name: "vox_wall_03",
+        file: [
+          "assets/sound/vox_wall_03.mp3",
+          "assets/sound/vox_wall_03.ogg"
+        ],
+        autoDecode: false,
+        ignore: false
+      },
+      {
+        name: "vox_wall_04",
+        file: [
+          "assets/sound/vox_wall_04.mp3",
+          "assets/sound/vox_wall_04.ogg"
+        ],
+        autoDecode: false,
+        ignore: false
       }
     ],
 
@@ -194,6 +329,32 @@ namespace LD42 {
     // ------------------------------------------------------------------
     spritesheet: [
 
+    ],
+
+    // Bitmap fonts
+    // ------------------------------------------------------------------
+    bitmapfont: [
+      {
+        name: "consolas",
+        texture: "assets/fonts/consolas_0.png",
+        atlas: "assets/fonts/consolas.fnt",
+        atlasData: null,
+        ignore: false
+      },
+      {
+        name: "ubuntumono",
+        texture: "assets/fonts/ubuntumono_0.png",
+        atlas: "assets/fonts/ubuntumono.fnt",
+        atlasData: null,
+        ignore: false
+      },
+      {
+        name: "yx_ui",
+        texture: "assets/fonts/yx_ui_0.png",
+        atlas: "assets/fonts/yx_ui.fnt",
+        atlasData: null,
+        ignore: false
+      }
     ]
   };
 }

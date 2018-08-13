@@ -2,6 +2,7 @@ namespace LD42 {
   import Point = Phaser.Point;
   import Control = Controls.Control;
   import ItemGroup = Interfaces.ItemGroup;
+  import GroupCollection = Interfaces.GroupCollection;
 
   /**
    * LD42 : LD42/States/Test
@@ -31,6 +32,11 @@ namespace LD42 {
     dial: Dial;
 
     /**
+     * Next player object.
+     */
+    nextDial: Dial;
+
+    /**
      * The game's background sprite object.
      */
     game_bg: Phaser.TileSprite;
@@ -50,18 +56,7 @@ namespace LD42 {
      */
     uiGroup: ItemGroup;
 
-    // Methods
-    // ------------------------------------------------------------------
-
-    /**
-     * Handles dial turning.
-     */
-    handleDial() {
-      // Get controller
-      let { controls } = this.controller;
-
-      this.dial.direction = controls.right.hold - controls.left.hold;
-    }
+    objectGroups: GroupCollection;
 
     // Lifecycle methods
     // ------------------------------------------------------------------
@@ -80,7 +75,27 @@ namespace LD42 {
       this.game_bg = this.game.add.tileSprite(0, 0, 64, 64, "bg_main");
       this.game_bg.alpha = 0.5;
 
-      this.dial = new Dial(this.game, this.game.world.centerX, this.game.world.centerY);
+      // GAME ELEMENT GROUPS
+      this.objectGroups = {
+        next: this.game.add.group(),
+        current: this.game.add.group()
+      };
+
+      this.dial = new Dial(
+        this.game,
+        this.game.world.centerX,
+        this.game.world.centerY
+      );
+
+      this.nextDial = new Dial(
+        this.game,
+        this.game.world.centerX,
+        this.game.world.centerY
+      );
+      this.nextDial.scale.setTo(0.5, 0.5);
+
+      this.objectGroups.next.add(this.nextDial);
+      this.objectGroups.current.add(this.dial);
 
       // UI ELEMENTS GO HERE
       this.soundGroup = {};
@@ -133,7 +148,69 @@ namespace LD42 {
         && this.dial.direction != 0
         && !this.soundGroup.door_01.isPlaying
       ) {
+        // this.soundGroup.door_01.play();
+      }
+
+      if (this.controller.controls.start.pressed) {
+        let current = this.dial;
         this.soundGroup.door_01.play();
+
+        this.count = 0;
+
+        this.dial = this.nextDial;
+        this.objectGroups.current.add(this.dial);
+        this.game.add.tween(this.dial.scale).to(
+          {
+            x: 1,
+            y: 1
+          },
+          500,
+          Phaser.Easing.Linear.None,
+          true,
+          200,
+          0,
+          false
+        );
+
+        this.nextDial = new Dial(
+          this.game,
+          this.game.world.centerX,
+          this.game.world.centerY
+        );
+        this.objectGroups.next.add(this.nextDial);
+        this.nextDial.scale.set(0.5, 0.5);
+
+        current.bringToTop();
+        current.speed = 0;
+        current.direction = 0;
+        let tween = this.game.add.tween(current).to(
+          {
+            x: current.x + 3,
+            y: 128
+          },
+          1000,
+          Phaser.Easing.Back.InOut,
+          true,
+          0,
+          0
+        );
+        this.game.add.tween(current.scale).to(
+          {
+            x: 2,
+            y: 2
+          },
+          500,
+          Phaser.Easing.Linear.None,
+          true,
+          0,
+          0,
+          false
+        );
+
+        tween.onComplete.add(function() {
+          // this.game.tween.remove(this);
+          current.destroy();
+        }, this);
       }
 
       this.count += 0.5;
@@ -141,6 +218,19 @@ namespace LD42 {
       this.uiGroup.dialText.text = Math.abs(this.degrees).toString();
       this.uiGroup.dialText.x = this.game.world.centerX - this.uiGroup.dialText.width / 2;
       this.uiGroup.dialText.y = this.game.world.centerY - this.uiGroup.dialText.height / 2;
+    }
+
+    // Methods
+    // ------------------------------------------------------------------
+
+    /**
+     * Handles dial turning.
+     */
+    handleDial() {
+      // Get controller
+      let { controls } = this.controller;
+
+      this.dial.direction = controls.right.hold - controls.left.hold;
     }
   }
 }
