@@ -1,10 +1,10 @@
 namespace Controls {
   /**
-   * LD42 : Controls/Control
+   * UNLOCKR : Controls/Control
    * --------------------------------------------------------------------
    * Represents a single controller entity.
    *
-   * Add it to the stage and do your magic.
+   * Add it to the stage, do your magic.
    *
    * @author    Fabio Y. Goto <lab@yuiti.com.br>
    * @since     0.0.1
@@ -16,7 +16,7 @@ namespace Controls {
     controls: ControlItem;
 
     /**
-     * Keyboard handler.
+     * Phaser keyboard handler.
      */
     private keyboard: Phaser.Keyboard;
 
@@ -36,15 +36,13 @@ namespace Controls {
     }
 
     // Lifecycle methods
-    // --------------------------------------------------------------------
+    // ------------------------------------------------------------------
 
     /**
      * Updates state.
      */
     update() {
       let keys = Object.keys(this.controls);
-
-      // Check controls and update their state
       for (let key of keys) {
         let curr: ControlState = this.controls[key];
         curr.hold     = this.keyboard.isDown(curr.key) ? 1 : 0;

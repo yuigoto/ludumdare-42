@@ -1,5 +1,5 @@
 /**
- * LD42 : Build
+ * UNLOCKR : Build
  * ----------------------------------------------------------------------
  * Builds the application.
  *
@@ -10,12 +10,14 @@
 // Load environment variables from .env
 require("dotenv").config();
 
+// Imports
 const async       = require("async");
 const copy        = require("copy");
 const fs          = require("fs");
 const path        = require("path");
 const sass        = require("node-sass");
 
+// Set path constants
 const OUT_DIR     = process.env.OUT_DIR || "build";
 const BUILD_PATH  = path.resolve(__dirname, OUT_DIR) + "\\";
 

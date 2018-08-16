@@ -1,7 +1,7 @@
 /**
- * LD42 : Serve
+ * UNLOCKR : Serve
  * ----------------------------------------------------------------------
- * Serves the application usind Express.
+ * Serves the application using Express.
  *
  * @author    Fabio Y. Goto <lab@yuiti.com.br>
  * @since     0.0.1
@@ -27,6 +27,7 @@ APP.use("/", (request, response) => {
   );
 });
 
+// Serve it!
 APP.listen(APP_PORT, err => {
   if (err) console.error(err);
   console.log("Application running on http://localhost:" + APP_PORT);

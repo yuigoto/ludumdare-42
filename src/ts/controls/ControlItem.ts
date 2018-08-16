@@ -1,8 +1,8 @@
 namespace Controls {
   /**
-   * LD42 : Controls/ControlItem
+   * UNLOCKR : Controls/ControlItem
    * --------------------------------------------------------------------
-   * Represents an instance of a single manageable controller entity.
+   * Represents an instance of a single manageable controller.
    *
    * The controller consists of a D-pad, select and start buttons and 8
    * action buttons/keys.
@@ -12,72 +12,72 @@ namespace Controls {
    */
   export class ControlItem {
     /**
-     * D-pad up control state.
+     * D-pad up.
      */
     up: ControlState;
 
     /**
-     * D-pad down control state.
+     * D-pad down.
      */
     down: ControlState;
 
     /**
-     * D-pad left control state.
+     * D-pad left.
      */
     left: ControlState;
 
     /**
-     * D-pad right control state.
+     * D-pad right.
      */
     right: ControlState;
 
     /**
-     * Start button control state.
+     * Start button.
      */
     start: ControlState;
 
     /**
-     * Select button control state.
+     * Select button.
      */
     select: ControlState;
 
     /**
-     * Action 1 button control state.
+     * Action 1 button.
      */
     action1: ControlState;
 
     /**
-     * Action 2 button control state.
+     * Action 2 button.
      */
     action2: ControlState;
 
     /**
-     * Action 3 button control state.
+     * Action 3 button.
      */
     action3: ControlState;
 
     /**
-     * Action 4 button control state.
+     * Action 4 button.
      */
     action4: ControlState;
 
     /**
-     * Action 5 button control state.
+     * Action 5 button.
      */
     action5: ControlState;
 
     /**
-     * Action 6 button control state.
+     * Action 6 button.
      */
     action6: ControlState;
 
     /**
-     * Action 7 button control state.
+     * Action 7 button.
      */
     action7: ControlState;
 
     /**
-     * Action 8 button control state.
+     * Action 8 button.
      */
     action8: ControlState;
 
@@ -114,12 +114,12 @@ namespace Controls {
      *    Action 8 button/key ID
      */
     constructor(
-      up: number = null,
-      down: number = null,
-      left: number = null,
-      right: number = null,
-      start: number = null,
-      select: number = null,
+      up: number      = null,
+      down: number    = null,
+      left: number    = null,
+      right: number   = null,
+      start: number   = null,
+      select: number  = null,
       action1: number = null,
       action2: number = null,
       action3: number = null,

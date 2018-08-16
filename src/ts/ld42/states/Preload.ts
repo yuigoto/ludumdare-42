@@ -1,20 +1,23 @@
 namespace LD42 {
   /**
-   * LD42 : LD42/States/Preload
+   * UNLOCKR : LD42/States/Preload
    * --------------------------------------------------------------------
-   * Preloads game assets.
+   * Preloads all the game's assets.
    *
    * @author    Fabio Y. Goto <lab@yuiti.com.br>
    * @since     0.0.1
    */
   export class Preload extends Phaser.State {
+    // Properties
+    // ------------------------------------------------------------------
+
     /**
-     * Preload bar sprite.
+     * Preloader bar sprite.
      */
     preloadBar: Phaser.Sprite;
 
     /**
-     * Preload bar wrapper.
+     * Preloader bar wrapper.
      */
     preloadOut: Phaser.Sprite;
 
@@ -22,10 +25,10 @@ namespace LD42 {
     // ------------------------------------------------------------------
 
     /**
-     * Sets preloader sprites.
+     * Defines preloader images from the bootstrapper's cache.
      */
-    setLoaderImage() {
-      // Wrapper
+    setLoaderImages() {
+      // Preload wrapper
       this.preloadOut = this.add.sprite(
         this.game.world.centerX,
         this.game.world.centerY,
@@ -34,7 +37,7 @@ namespace LD42 {
       this.preloadOut.x -= this.preloadOut.width / 2;
       this.preloadOut.y -= this.preloadOut.height / 2;
 
-      // Bar
+      // Preload bar
       this.preloadBar = this.add.sprite(
         this.game.world.centerX,
         this.game.world.centerY,
@@ -44,21 +47,21 @@ namespace LD42 {
       this.preloadBar.x -= this.preloadBar.width / 2;
       this.preloadBar.y -= this.preloadBar.height / 2;
 
-      // Set as preloader sprite
+      // Set loader sprite
       this.load.setPreloadSprite(this.preloadBar, 0);
     }
 
-    // Lifecycle Methods
+    // Lifecycle methods
     // ------------------------------------------------------------------
 
     /**
-     * Handles preloading of the assets.
+     * Bootstraps state data and assets.
      */
     preload() {
-      // Set preloader images
-      this.setLoaderImage();
+      this.setLoaderImages();
 
-      // Uses Assets to load assets
+      // ASSET LOADING
+      // ----------------------------------------------------------------
 
       // Images
       for (let image of Assets.image) {
@@ -68,13 +71,13 @@ namespace LD42 {
       }
 
       // Sounds
-      for (let sound of Assets.sound){
+      for (let sound of Assets.sound) {
         if (!sound.ignore) {
           this.load.audio(sound.name, sound.file, sound.autoDecode);
         }
       }
 
-      // Spritesheet
+      // Spritesheets
       for (let spritesheet of Assets.spritesheet) {
         if (!spritesheet.ignore) {
           this.load.spritesheet(
@@ -91,27 +94,25 @@ namespace LD42 {
       }
 
       // Bitmap fonts
-      for (let font of Assets.bitmapfont) {
-        if (!font.ignore) {
+      for (let bitmapfont of Assets.bitmapfont) {
+        if (!bitmapfont.ignore) {
           this.load.bitmapFont(
-            font.name,
-            font.texture,
-            font.atlas,
-            font.atlasData
+            bitmapfont.name,
+            bitmapfont.texture,
+            bitmapfont.atlas,
+            bitmapfont.atlasData
           );
         }
       }
 
-      // TODO: Load fonts here
+      // Load @font-face fonts (i.e.: Google Fonts, etc.) here
     }
 
     /**
-     * Fires up the state.
+     * Executes the state.
      */
     create() {
-      // this.state.start("Main");
-      // this.state.start("Test");
-      this.state.start("Main");
+      this.state.start("Title");
     }
   }
 }

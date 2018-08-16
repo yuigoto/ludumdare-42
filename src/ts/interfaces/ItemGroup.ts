@@ -1,8 +1,8 @@
 namespace Interfaces {
   /**
-   * LD42 : Interfaces/ItemGroup
+   * UNLOCKR : Interfaces/ItemGroup
    * --------------------------------------------------------------------
-   * Generic interface used to create declarable object groups for easy
+   * Generic interface, used to create declarable object groups for easy
    * object handling and management.
    *
    * @author    Fabio Y. Goto <lab@yuiti.com.br>

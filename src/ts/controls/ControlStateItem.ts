@@ -1,15 +1,15 @@
 namespace Controls {
   /**
-   * LD42 : Controls/ControlStateItem
+   * UNLOCKR : Controls/ControlStateItem
    * --------------------------------------------------------------------
    * Returns a plain JavaScript object, implementing a default `ControlState`
-   * for a single input control (a button, trigger or key).
+   * for a single input control (button, trigger or key).
    *
    * @author    Fabio Y. Goto <lab@yuiti.com.br>
    * @since     0.0.1
    *
    * @param {number} key
-   *    A keyboard key, input or button numeric ID
+   *    Keyboard key, input button or other input ID
    * @constructor
    */
   export function ControlStateItem(
@@ -20,7 +20,8 @@ namespace Controls {
       pressed: false,
       release: false,
       previous: 0,
-      key: key
+      key: key,
+      value: 0
     }
   }
 }

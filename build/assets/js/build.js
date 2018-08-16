@@ -88,7 +88,8 @@ var Controls;
             pressed: false,
             release: false,
             previous: 0,
-            key: key
+            key: key,
+            value: 0
         };
     }
     Controls.ControlStateItem = ControlStateItem;
@@ -109,360 +110,20 @@ var Helpers;
 })(Helpers || (Helpers = {}));
 var LD42;
 (function (LD42) {
-    LD42.Assets = {
-        image: [
-            {
-                name: "bg_main",
-                file: "assets/img/bg/bg_main.png",
-                overwrite: false,
-                ignore: false
-            },
-            {
-                name: "ui_wall",
-                file: "assets/img/bg/ui_wall.png",
-                overwrite: false,
-                ignore: false
-            },
-            {
-                name: "ui_wall_over",
-                file: "assets/img/bg/ui_wall_over.png",
-                overwrite: false,
-                ignore: false
-            },
-            {
-                name: "spr_door_l",
-                file: "assets/img/sprite/spr_door_l.png",
-                overwrite: false,
-                ignore: false
-            },
-            {
-                name: "spr_door_r",
-                file: "assets/img/sprite/spr_door_r.png",
-                overwrite: false,
-                ignore: false
-            },
-            {
-                name: "spr_lock",
-                file: "assets/img/sprite/spr_lock.png",
-                overwrite: false,
-                ignore: false
-            }
-        ],
-        sound: [
-            {
-                name: "snd_bell_01",
-                file: [
-                    "assets/sound/bell-01.mp3",
-                    "assets/sound/bell-01.ogg"
-                ],
-                autoDecode: false,
-                ignore: false
-            },
-            {
-                name: "snd_dial_01",
-                file: [
-                    "assets/sound/snd-dial-01.mp3",
-                    "assets/sound/snd-dial-01.ogg"
-                ],
-                autoDecode: false,
-                ignore: false
-            },
-            {
-                name: "snd_dial_02",
-                file: [
-                    "assets/sound/snd-dial-02.mp3",
-                    "assets/sound/snd-dial-02.ogg"
-                ],
-                autoDecode: false,
-                ignore: false
-            },
-            {
-                name: "snd_dial_03",
-                file: [
-                    "assets/sound/snd-dial-03.mp3",
-                    "assets/sound/snd-dial-03.ogg"
-                ],
-                autoDecode: false,
-                ignore: false
-            },
-            {
-                name: "snd_dial_04",
-                file: [
-                    "assets/sound/snd-dial-04.mp3",
-                    "assets/sound/snd-dial-04.ogg"
-                ],
-                autoDecode: false,
-                ignore: false
-            },
-            {
-                name: "snd_dial_05",
-                file: [
-                    "assets/sound/snd-dial-05.mp3",
-                    "assets/sound/snd-dial-05.ogg"
-                ],
-                autoDecode: false,
-                ignore: false
-            },
-            {
-                name: "snd_dial_06",
-                file: [
-                    "assets/sound/snd-dial-06.mp3",
-                    "assets/sound/snd-dial-06.ogg"
-                ],
-                autoDecode: false,
-                ignore: false
-            },
-            {
-                name: "snd_dial_07",
-                file: [
-                    "assets/sound/snd-dial-07.mp3",
-                    "assets/sound/snd-dial-07.ogg"
-                ],
-                autoDecode: false,
-                ignore: false
-            },
-            {
-                name: "snd_dial_08",
-                file: [
-                    "assets/sound/snd-dial-08.mp3",
-                    "assets/sound/snd-dial-08.ogg"
-                ],
-                autoDecode: false,
-                ignore: false
-            },
-            {
-                name: "snd_dial_09",
-                file: [
-                    "assets/sound/snd-dial-09.mp3",
-                    "assets/sound/snd-dial-09.ogg"
-                ],
-                autoDecode: false,
-                ignore: false
-            },
-            {
-                name: "snd_dial_10",
-                file: [
-                    "assets/sound/snd-dial-10.mp3",
-                    "assets/sound/snd-dial-10.ogg"
-                ],
-                autoDecode: false,
-                ignore: false
-            },
-            {
-                name: "snd_dial_11",
-                file: [
-                    "assets/sound/snd-dial-11.mp3",
-                    "assets/sound/snd-dial-11.ogg"
-                ],
-                autoDecode: false,
-                ignore: false
-            },
-            {
-                name: "snd_dial_12",
-                file: [
-                    "assets/sound/snd-dial-12.mp3",
-                    "assets/sound/snd-dial-12.ogg"
-                ],
-                autoDecode: false,
-                ignore: false
-            },
-            {
-                name: "snd_door_01",
-                file: [
-                    "assets/sound/snd-door-01.mp3",
-                    "assets/sound/snd-door-01.ogg"
-                ],
-                autoDecode: false,
-                ignore: false
-            },
-            {
-                name: "snd_door_02",
-                file: [
-                    "assets/sound/snd-door-02.mp3",
-                    "assets/sound/snd-door-02.ogg"
-                ],
-                autoDecode: false,
-                ignore: false
-            },
-            {
-                name: "snd_door_03",
-                file: [
-                    "assets/sound/snd-door-03.mp3",
-                    "assets/sound/snd-door-03.ogg"
-                ],
-                autoDecode: false,
-                ignore: false
-            },
-            {
-                name: "snd_door_04",
-                file: [
-                    "assets/sound/snd-door-04.mp3",
-                    "assets/sound/snd-door-04.ogg"
-                ],
-                autoDecode: false,
-                ignore: false
-            },
-            {
-                name: "snd_door_05",
-                file: [
-                    "assets/sound/snd-door-05.mp3",
-                    "assets/sound/snd-door-05.ogg"
-                ],
-                autoDecode: false,
-                ignore: false
-            },
-            {
-                name: "snd_lock_01",
-                file: [
-                    "assets/sound/lock-01.mp3",
-                    "assets/sound/lock-01.ogg"
-                ],
-                autoDecode: false,
-                ignore: false
-            },
-            {
-                name: "snd_lock_02",
-                file: [
-                    "assets/sound/lock-02.mp3",
-                    "assets/sound/lock-02.ogg"
-                ],
-                autoDecode: false,
-                ignore: false
-            },
-            {
-                name: "snd_lock_03",
-                file: [
-                    "assets/sound/lock-03.mp3",
-                    "assets/sound/lock-03.ogg"
-                ],
-                autoDecode: false,
-                ignore: false
-            },
-            {
-                name: "snd_lock_04",
-                file: [
-                    "assets/sound/lock-04.mp3",
-                    "assets/sound/lock-04.ogg"
-                ],
-                autoDecode: false,
-                ignore: false
-            },
-            {
-                name: "ld42_song",
-                file: [
-                    "assets/music/ld42-kronos.mp3",
-                    "assets/music/ld42-kronos.ogg"
-                ],
-                autoDecode: false,
-                ignore: false
-            },
-            {
-                name: "vox_unlockr_01",
-                file: [
-                    "assets/sound/vox_unlockr_01.mp3",
-                    "assets/sound/vox_unlockr_01.ogg"
-                ],
-                autoDecode: false,
-                ignore: false
-            },
-            {
-                name: "vox_unlockr_02",
-                file: [
-                    "assets/sound/vox_unlockr_02.mp3",
-                    "assets/sound/vox_unlockr_02.ogg"
-                ],
-                autoDecode: false,
-                ignore: false
-            },
-            {
-                name: "vox_unlockr_03",
-                file: [
-                    "assets/sound/vox_unlockr_03.mp3",
-                    "assets/sound/vox_unlockr_03.ogg"
-                ],
-                autoDecode: false,
-                ignore: false
-            },
-            {
-                name: "vox_wall_01",
-                file: [
-                    "assets/sound/vox_wall_01.mp3",
-                    "assets/sound/vox_wall_01.ogg"
-                ],
-                autoDecode: false,
-                ignore: false
-            },
-            {
-                name: "vox_wall_02",
-                file: [
-                    "assets/sound/vox_wall_02.mp3",
-                    "assets/sound/vox_wall_02.ogg"
-                ],
-                autoDecode: false,
-                ignore: false
-            },
-            {
-                name: "vox_wall_03",
-                file: [
-                    "assets/sound/vox_wall_03.mp3",
-                    "assets/sound/vox_wall_03.ogg"
-                ],
-                autoDecode: false,
-                ignore: false
-            },
-            {
-                name: "vox_wall_04",
-                file: [
-                    "assets/sound/vox_wall_04.mp3",
-                    "assets/sound/vox_wall_04.ogg"
-                ],
-                autoDecode: false,
-                ignore: false
-            }
-        ],
-        spritesheet: [],
-        bitmapfont: [
-            {
-                name: "consolas",
-                texture: "assets/fonts/consolas_0.png",
-                atlas: "assets/fonts/consolas.fnt",
-                atlasData: null,
-                ignore: false
-            },
-            {
-                name: "ubuntumono",
-                texture: "assets/fonts/ubuntumono_0.png",
-                atlas: "assets/fonts/ubuntumono.fnt",
-                atlasData: null,
-                ignore: false
-            },
-            {
-                name: "yx_ui",
-                texture: "assets/fonts/yx_ui_0.png",
-                atlas: "assets/fonts/yx_ui.fnt",
-                atlasData: null,
-                ignore: false
-            }
-        ]
-    };
-})(LD42 || (LD42 = {}));
-var LD42;
-(function (LD42) {
     var Game = (function (_super) {
         __extends(Game, _super);
         function Game() {
-            var _this = _super.call(this, 64, 64, Phaser.CANVAS, "ld42-game", null, true, false) || this;
-            document.title = "UNLOCKR : v0.0.1 : by YUITI";
+            var _this = _super.call(this, 64, 64, Phaser.AUTO, "ld42-game", null, true, false) || this;
+            document.title = LD42.GameInfo.title + " : " + LD42.GameInfo.version + " : by " + LD42.GameInfo.author_display;
             var name = document.getElementById("ld42-name"), description = document.getElementById("ld42-description"), controls = document.getElementById("ld42-controls"), copy = document.getElementById("ld42-copy");
-            name.innerHTML = "UNLOCKR <small>v0.0.1</small>";
-            description.innerHTML = "A simple, minimalistic game about unlocking and escaping an infinite corridor";
-            controls.innerHTML = "Left and Right to play, Enter to start";
-            copy.innerHTML = "©2018 YUITI";
+            name.innerHTML = LD42.GameInfo.title + " <small>v" + LD42.GameInfo.version + "</small>";
+            description.innerHTML = LD42.GameInfo.description;
+            controls.innerHTML = LD42.GameInfo.controls;
+            copy.innerHTML = LD42.GameInfo.copyright;
             _this.state.add("Boot", LD42.Boot, false);
             _this.state.add("Preload", LD42.Preload, false);
-            _this.state.add("Test", LD42.Test, false);
-            _this.state.add("Main", LD42.Main, false);
-            _this.state.add("PlayTest", LD42.PlayTest, false);
+            _this.state.add("Title", LD42.Title, false);
+            _this.state.add("Play", LD42.Play, false);
             _this.state.start("Boot");
             return _this;
         }
@@ -472,95 +133,500 @@ var LD42;
 })(LD42 || (LD42 = {}));
 var LD42;
 (function (LD42) {
+    LD42.AssetListBitmapFont = [
+        {
+            name: "anonymous_pro",
+            texture: "assets/fonts/anonymous_pro_0.png",
+            atlas: "assets/fonts/anonymous_pro.fnt",
+            atlasData: null,
+            ignore: false
+        },
+        {
+            name: "consolas",
+            texture: "assets/fonts/consolas_0.png",
+            atlas: "assets/fonts/consolas.fnt",
+            atlasData: null,
+            ignore: false
+        },
+        {
+            name: "envy_code_r",
+            texture: "assets/fonts/envy_code_r_0.png",
+            atlas: "assets/fonts/envy_code_r.fnt",
+            atlasData: null,
+            ignore: false
+        },
+        {
+            name: "ubuntumono",
+            texture: "assets/fonts/ubuntumono_0.png",
+            atlas: "assets/fonts/ubuntumono.fnt",
+            atlasData: null,
+            ignore: false
+        },
+        {
+            name: "yx_ui",
+            texture: "assets/fonts/yx_ui_0.png",
+            atlas: "assets/fonts/yx_ui.fnt",
+            atlasData: null,
+            ignore: false
+        }
+    ];
+})(LD42 || (LD42 = {}));
+var LD42;
+(function (LD42) {
+    LD42.AssetListImage = [
+        {
+            name: "bg_corridor",
+            file: "assets/img/bg/bg_corridor.png",
+            overwrite: false,
+            ignore: false
+        },
+        {
+            name: "spr_dial",
+            file: "assets/img/sprite/spr_dial.png",
+            overwrite: false,
+            ignore: false
+        },
+        {
+            name: "spr_door_l",
+            file: "assets/img/sprite/spr_door_l.png",
+            overwrite: false,
+            ignore: false
+        },
+        {
+            name: "spr_door_r",
+            file: "assets/img/sprite/spr_door_r.png",
+            overwrite: false,
+            ignore: false
+        },
+        {
+            name: "ui_title",
+            file: "assets/img/ui/ui_title.png",
+            overwrite: false,
+            ignore: false
+        },
+        {
+            name: "ui_wall",
+            file: "assets/img/ui/ui_wall.png",
+            overwrite: false,
+            ignore: false
+        },
+        {
+            name: "ui_wall_shadow",
+            file: "assets/img/ui/ui_wall_shadow.png",
+            overwrite: false,
+            ignore: false
+        }
+    ];
+})(LD42 || (LD42 = {}));
+var LD42;
+(function (LD42) {
+    LD42.AssetListSound = [
+        {
+            name: "ld42_intro",
+            file: [
+                "assets/music/ld42_intro.mp3",
+                "assets/music/ld42_intro.ogg"
+            ],
+            autoDecode: false,
+            ignore: false
+        },
+        {
+            name: "ld42_song",
+            file: [
+                "assets/music/ld42_kronos.mp3",
+                "assets/music/ld42_kronos.ogg"
+            ],
+            autoDecode: false,
+            ignore: false
+        },
+        {
+            name: "snd_bell_01",
+            file: [
+                "assets/sound/snd_bell_01.mp3",
+                "assets/sound/snd_bell_01.ogg"
+            ],
+            autoDecode: false,
+            ignore: false
+        },
+        {
+            name: "snd_dial_01",
+            file: [
+                "assets/sound/snd_dial_01.mp3",
+                "assets/sound/snd_dial_01.ogg"
+            ],
+            autoDecode: false,
+            ignore: false
+        },
+        {
+            name: "snd_dial_02",
+            file: [
+                "assets/sound/snd_dial_02.mp3",
+                "assets/sound/snd_dial_02.ogg"
+            ],
+            autoDecode: false,
+            ignore: false
+        },
+        {
+            name: "snd_dial_03",
+            file: [
+                "assets/sound/snd_dial_03.mp3",
+                "assets/sound/snd_dial_03.ogg"
+            ],
+            autoDecode: false,
+            ignore: false
+        },
+        {
+            name: "snd_dial_04",
+            file: [
+                "assets/sound/snd_dial_04.mp3",
+                "assets/sound/snd_dial_04.ogg"
+            ],
+            autoDecode: false,
+            ignore: false
+        },
+        {
+            name: "snd_dial_05",
+            file: [
+                "assets/sound/snd_dial_05.mp3",
+                "assets/sound/snd_dial_05.ogg"
+            ],
+            autoDecode: false,
+            ignore: false
+        },
+        {
+            name: "snd_dial_06",
+            file: [
+                "assets/sound/snd_dial_06.mp3",
+                "assets/sound/snd_dial_06.ogg"
+            ],
+            autoDecode: false,
+            ignore: false
+        },
+        {
+            name: "snd_dial_07",
+            file: [
+                "assets/sound/snd_dial_07.mp3",
+                "assets/sound/snd_dial_07.ogg"
+            ],
+            autoDecode: false,
+            ignore: false
+        },
+        {
+            name: "snd_dial_08",
+            file: [
+                "assets/sound/snd_dial_08.mp3",
+                "assets/sound/snd_dial_08.ogg"
+            ],
+            autoDecode: false,
+            ignore: false
+        },
+        {
+            name: "snd_dial_09",
+            file: [
+                "assets/sound/snd_dial_09.mp3",
+                "assets/sound/snd_dial_09.ogg"
+            ],
+            autoDecode: false,
+            ignore: false
+        },
+        {
+            name: "snd_dial_10",
+            file: [
+                "assets/sound/snd_dial_10.mp3",
+                "assets/sound/snd_dial_10.ogg"
+            ],
+            autoDecode: false,
+            ignore: false
+        },
+        {
+            name: "snd_dial_11",
+            file: [
+                "assets/sound/snd_dial_11.mp3",
+                "assets/sound/snd_dial_11.ogg"
+            ],
+            autoDecode: false,
+            ignore: false
+        },
+        {
+            name: "snd_dial_12",
+            file: [
+                "assets/sound/snd_dial_12.mp3",
+                "assets/sound/snd_dial_12.ogg"
+            ],
+            autoDecode: false,
+            ignore: false
+        },
+        {
+            name: "snd_door_01",
+            file: [
+                "assets/sound/snd_door_01.mp3",
+                "assets/sound/snd_door_01.ogg"
+            ],
+            autoDecode: false,
+            ignore: false
+        },
+        {
+            name: "snd_door_02",
+            file: [
+                "assets/sound/snd_door_02.mp3",
+                "assets/sound/snd_door_02.ogg"
+            ],
+            autoDecode: false,
+            ignore: false
+        },
+        {
+            name: "snd_door_03",
+            file: [
+                "assets/sound/snd_door_03.mp3",
+                "assets/sound/snd_door_03.ogg"
+            ],
+            autoDecode: false,
+            ignore: false
+        },
+        {
+            name: "snd_door_04",
+            file: [
+                "assets/sound/snd_door_04.mp3",
+                "assets/sound/snd_door_04.ogg"
+            ],
+            autoDecode: false,
+            ignore: false
+        },
+        {
+            name: "snd_door_05",
+            file: [
+                "assets/sound/snd_door_05.mp3",
+                "assets/sound/snd_door_05.ogg"
+            ],
+            autoDecode: false,
+            ignore: false
+        },
+        {
+            name: "snd_lock_01",
+            file: [
+                "assets/sound/snd_lock_01.mp3",
+                "assets/sound/snd_lock_01.ogg"
+            ],
+            autoDecode: false,
+            ignore: false
+        },
+        {
+            name: "snd_lock_02",
+            file: [
+                "assets/sound/snd_lock_02.mp3",
+                "assets/sound/snd_lock_02.ogg"
+            ],
+            autoDecode: false,
+            ignore: false
+        },
+        {
+            name: "snd_lock_03",
+            file: [
+                "assets/sound/snd_lock_03.mp3",
+                "assets/sound/snd_lock_03.ogg"
+            ],
+            autoDecode: false,
+            ignore: false
+        },
+        {
+            name: "snd_lock_04",
+            file: [
+                "assets/sound/snd_lock_04.mp3",
+                "assets/sound/snd_lock_04.ogg"
+            ],
+            autoDecode: false,
+            ignore: false
+        },
+        {
+            name: "snd_lock_05",
+            file: [
+                "assets/sound/snd_lock_05.mp3",
+                "assets/sound/snd_lock_05.ogg"
+            ],
+            autoDecode: false,
+            ignore: false
+        },
+        {
+            name: "snd_start_01",
+            file: [
+                "assets/sound/snd_start_01.mp3",
+                "assets/sound/snd_start_01.ogg"
+            ],
+            autoDecode: false,
+            ignore: false
+        },
+        {
+            name: "snd_wall_loop",
+            file: [
+                "assets/sound/snd_wall_loop.mp3",
+                "assets/sound/snd_wall_loop.ogg"
+            ],
+            autoDecode: false,
+            ignore: false
+        },
+        {
+            name: "vox_unlockr_01",
+            file: [
+                "assets/sound/vox_unlockr_01.mp3",
+                "assets/sound/vox_unlockr_01.ogg"
+            ],
+            autoDecode: false,
+            ignore: false
+        },
+        {
+            name: "vox_unlockr_02",
+            file: [
+                "assets/sound/vox_unlockr_02.mp3",
+                "assets/sound/vox_unlockr_02.ogg"
+            ],
+            autoDecode: false,
+            ignore: false
+        },
+        {
+            name: "vox_unlockr_03",
+            file: [
+                "assets/sound/vox_unlockr_03.mp3",
+                "assets/sound/vox_unlockr_03.ogg"
+            ],
+            autoDecode: false,
+            ignore: false
+        },
+        {
+            name: "vox_wall_01",
+            file: [
+                "assets/sound/vox_wall_01.mp3",
+                "assets/sound/vox_wall_01.ogg"
+            ],
+            autoDecode: false,
+            ignore: false
+        },
+        {
+            name: "vox_wall_02",
+            file: [
+                "assets/sound/vox_wall_02.mp3",
+                "assets/sound/vox_wall_02.ogg"
+            ],
+            autoDecode: false,
+            ignore: false
+        },
+        {
+            name: "vox_wall_03",
+            file: [
+                "assets/sound/vox_wall_03.mp3",
+                "assets/sound/vox_wall_03.ogg"
+            ],
+            autoDecode: false,
+            ignore: false
+        }
+    ];
+})(LD42 || (LD42 = {}));
+var LD42;
+(function (LD42) {
+    LD42.AssetListSpritesheet = [
+        {
+            name: "bg_corridor_sprite",
+            file: "assets/img/bg/bg_corridor_sprite.png",
+            frameWidth: 64,
+            frameHeight: 64,
+            frameMax: 12,
+            margin: 0,
+            spacing: 0,
+            skipFrames: 0,
+            ignore: false
+        }
+    ];
+})(LD42 || (LD42 = {}));
+var LD42;
+(function (LD42) {
+    LD42.Assets = {
+        image: LD42.AssetListImage,
+        sound: LD42.AssetListSound,
+        spritesheet: LD42.AssetListSpritesheet,
+        bitmapfont: LD42.AssetListBitmapFont
+    };
+})(LD42 || (LD42 = {}));
+var LD42;
+(function (LD42) {
+    LD42.GameInfo = {
+        title: "UNLOCKR",
+        version: "0.1.1",
+        description: "A small infinite runner for the claustrophobic.<br>Open your way by unlocking doors and avoid getting crushed!",
+        controls: "<strong>Left/Right</strong>: turn the dial<br><strong>Enter</strong>: start/skip.",
+        author: "Fabio Y. Goto",
+        author_display: "YUITI",
+        copyright: "©2018 YUITI"
+    };
+})(LD42 || (LD42 = {}));
+var LD42;
+(function (LD42) {
     var approach = Helpers.approach;
     var Dial = (function (_super) {
         __extends(Dial, _super);
         function Dial(game, x, y, group) {
             if (group === void 0) { group = null; }
-            var _this = _super.call(this, game, x, y, "spr_lock", 0) || this;
+            var _this = _super.call(this, game, x, y, "spr_dial", 0) || this;
+            _this.discard = false;
             _this.direction = 0;
-            _this.turn = 0;
             _this.speed = 0;
             _this.speed_max = 8;
-            _this.factor_accel = 0.5;
-            _this.factor_decel = 1.0;
+            _this.accel = 0.25;
+            _this.decel = 0.5;
+            _this.turn = 0;
+            _this.sounds = {};
             _this.sound_time = 0;
-            _this.sound_group = {};
-            _this.loadSounds();
             _this.anchor.setTo(0.5, 0.5);
+            _this.alive = true;
+            _this.sounds = {};
+            _this.loadSounds();
             game.add.existing(_this);
+            if (group)
+                group.add(_this);
+            _this.group = group;
             return _this;
         }
-        Dial.prototype.update = function () {
-            this.handleTurn();
+        Dial.prototype.killDial = function () {
+            if (this.alive) {
+                this.alive = false;
+                var sign_x = (Math.random() < .5) ? -1 : 1, sign_a = (Math.random() < .5) ? -1 : 1;
+                this.game.add.tween(this).to({
+                    y: this.y + 96
+                }, 500, Phaser.Easing.Back.In, true, 0, 0);
+                this.game.add.tween(this).to({
+                    x: this.x + Math.round(Math.random() * 32) * sign_x,
+                    angle: this.angle + (40 * sign_a)
+                }, 500, Phaser.Easing.Linear.None, true, 0, 0).onComplete.add(function () {
+                    this.discard = true;
+                    this.group.remove(this);
+                    this.destroy();
+                }, this);
+                this.game.add.tween(this).to({
+                    alpha: 0
+                }, 200, Phaser.Easing.Linear.None, true, 200, 0);
+                this.game.add.tween(this.scale).to({
+                    x: 1.5,
+                    y: 1.5
+                }, 500, Phaser.Easing.Linear.None, true, 0, 0, false);
+            }
         };
         Dial.prototype.loadSounds = function () {
-            this.sound_group.dial_01 = this.game.add.sound("snd_dial_01", .3, false);
-            this.sound_group.dial_02 = this.game.add.sound("snd_dial_02", .3, false);
-            this.sound_group.dial_03 = this.game.add.sound("snd_dial_03", .3, false);
-            this.sound_group.dial_04 = this.game.add.sound("snd_dial_04", .3, false);
-            this.sound_group.dial_05 = this.game.add.sound("snd_dial_05", .3, false);
-            this.sound_group.dial_06 = this.game.add.sound("snd_dial_06", .3, false);
-            this.sound_group.dial_07 = this.game.add.sound("snd_dial_07", .3, false);
-            this.sound_group.dial_08 = this.game.add.sound("snd_dial_08", .3, false);
-            this.sound_group.dial_09 = this.game.add.sound("snd_dial_09", .3, false);
-            this.sound_group.dial_10 = this.game.add.sound("snd_dial_10", .3, false);
-            this.sound_group.dial_11 = this.game.add.sound("snd_dial_11", .3, false);
-            this.sound_group.dial_12 = this.game.add.sound("snd_dial_12", .3, false);
-        };
-        Dial.prototype.playSound = function () {
-            switch (Math.floor(Math.random() * 12)) {
-                case 2:
-                    this.sound_group.dial_02.play();
-                    break;
-                case 3:
-                    this.sound_group.dial_03.play();
-                    break;
-                case 4:
-                    this.sound_group.dial_04.play();
-                    break;
-                case 5:
-                    this.sound_group.dial_05.play();
-                    break;
-                case 6:
-                    this.sound_group.dial_06.play();
-                    break;
-                case 7:
-                    this.sound_group.dial_07.play();
-                    break;
-                case 8:
-                    this.sound_group.dial_08.play();
-                    break;
-                case 9:
-                    this.sound_group.dial_09.play();
-                    break;
-                case 10:
-                    this.sound_group.dial_10.play();
-                    break;
-                case 11:
-                    this.sound_group.dial_11.play();
-                    break;
-                case 12:
-                    this.sound_group.dial_12.play();
-                    break;
-                default:
-                    this.sound_group.dial_01.play();
-                    break;
+            for (var i = 1; i <= 12; i++) {
+                var n = i.toString();
+                if (n.length < 2)
+                    n = "0" + n;
+                this.sounds["dial_" + n] = this.game.add.sound("snd_dial_" + n, 0.3, false);
             }
         };
-        Dial.prototype.handleTurn = function () {
-            if (this.direction != 0) {
-                this.speed = approach(this.speed, this.speed_max * this.direction, this.factor_accel);
-            }
-            else {
-                this.speed = approach(this.speed, 0, this.factor_decel);
-            }
-            this.turn = Math.floor(this.speed);
-            this.angle += this.turn;
+        Dial.prototype.playSounds = function () {
+            var n = (1 + Math.floor(Math.random() * 11)).toString();
+            if (n.length < 2)
+                n = "0" + n;
+            this.sounds["dial_" + n].play();
+        };
+        Dial.prototype.playDialSound = function () {
             if (this.turn != 0) {
                 if (this.sound_time == 0) {
-                    this.playSound();
-                    this.sound_time = Math.round(8 * (1.5 - (Math.abs(this.turn) / this.speed_max)));
+                    this.playSounds();
+                    this.sound_time = Math.round(this.speed_max * (1.5 - (Math.abs(this.turn) / this.speed_max)));
                 }
                 else {
                     this.sound_time -= 1;
@@ -569,6 +635,25 @@ var LD42;
             else {
                 this.sound_time = 0;
             }
+        };
+        Dial.prototype.turnDial = function () {
+            if (this.alive && Math.abs(this.direction)) {
+                if (Math.sign(this.speed) !== Math.sign(this.direction)) {
+                    this.speed = approach(this.speed, 0, this.decel);
+                }
+                this.speed = approach(this.speed, this.speed_max * this.direction, this.accel);
+            }
+            else {
+                this.speed = approach(this.speed, 0, this.decel);
+            }
+            if (this.alive) {
+                this.turn = Math.floor(this.speed);
+                this.angle += this.turn;
+                this.playDialSound();
+            }
+        };
+        Dial.prototype.update = function () {
+            this.turnDial();
         };
         return Dial;
     }(Phaser.Sprite));
@@ -581,18 +666,41 @@ var LD42;
         function Door(game, x, y, right, group) {
             if (right === void 0) { right = false; }
             if (group === void 0) { group = null; }
-            var _this = this;
-            if (right) {
-                _this = _super.call(this, game, x, y, "spr_door_r", 0) || this;
-                _this.anchor.set(0, 0.5);
-            }
-            else {
-                _this = _super.call(this, game, x, y, "spr_door_l", 0) || this;
-                _this.anchor.set(1, 0.5);
-            }
+            var _this = _super.call(this, game, x, y, (right === true) ? "spr_door_r" : "spr_door_l", 0) || this;
+            _this.discard = false;
+            _this.rightSide = false;
+            _this.anchor.set((right === true) ? 0 : 1, 0.5);
+            _this.rightSide = right;
             game.add.existing(_this);
+            if (group)
+                group.add(_this);
+            _this.group = group;
             return _this;
         }
+        Door.prototype.killDoor = function () {
+            if (this.alive) {
+                this.alive = false;
+                var move = (this.rightSide)
+                    ? this.x + this.width
+                    : this.x - this.width;
+                this.game.add.tween(this).to({
+                    x: move
+                }, 1000, Phaser.Easing.Exponential.Out, true, 200, 0, false);
+                this.game.add.tween(this).to({
+                    alpha: 0
+                }, 500, Phaser.Easing.Linear.None, true, 300, 0, false).onComplete.add(function () {
+                    this.discard = true;
+                    this.group.remove(this);
+                    this.destroy();
+                }, this);
+                this.game.add.tween(this.scale).to({
+                    x: 2,
+                    y: 2
+                }, 1000, Phaser.Easing.Exponential.Out, true, 300, 0, false);
+            }
+        };
+        Door.prototype.update = function () {
+        };
         return Door;
     }(Phaser.Sprite));
     LD42.Door = Door;
@@ -607,8 +715,8 @@ var LD42;
         Boot.prototype.preload = function () {
             this.game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
             Phaser.Canvas.setImageRenderingCrisp(this.game.canvas);
-            this.load.image("loader_in", "assets/img/ui/loader_in.png", false);
-            this.load.image("loader_out", "assets/img/ui/loader_out.png", false);
+            this.load.image("loader_in", "assets/img/ui/ui_loader_in.png", false);
+            this.load.image("loader_out", "assets/img/ui/ui_loader_out.png", false);
         };
         Boot.prototype.create = function () {
             this.input.maxPointers = 1;
@@ -619,7 +727,7 @@ var LD42;
             }
             else {
             }
-            this.state.start("Preload", true, false);
+            this.state.start("Preload");
         };
         return Boot;
     }(Phaser.State));
@@ -628,83 +736,47 @@ var LD42;
 var LD42;
 (function (LD42) {
     var Control = Controls.Control;
-    var Main = (function (_super) {
-        __extends(Main, _super);
-        function Main() {
-            return _super !== null && _super.apply(this, arguments) || this;
-        }
-        Main.prototype.shutdown = function () {
-            this.world.removeAll();
-        };
-        Main.prototype.create = function () {
-            this.controller = new Control(this.game, "controller_p1");
-            var overText = this.game.add.bitmapText(0, 0, "yx_ui", "UNLOCKR", 10);
-            overText.anchor.setTo(0.5, 0.5);
-            overText.tint = 0xffffff;
-            overText.x = this.game.world.centerX;
-            overText.y = this.game.world.centerY + 16;
-            overText.alpha = 0;
-            this.game.add.tween(overText).to({
-                y: this.game.world.centerY - 16,
-                alpha: 1
-            }, 500, Phaser.Easing.Quintic.Out, true, 100, 0, false);
-            var startText = this.game.add.bitmapText(0, 0, "yx_ui", "Press Enter\nto Start", 10);
-            startText.anchor.setTo(0.5, 0.5);
-            startText.tint = 0xffffff;
-            startText.x = this.game.world.centerX;
-            startText.y = this.game.world.centerY + 16;
-            startText.alpha = 0;
-            this.game.add.tween(startText).to({
-                y: this.game.world.centerY,
-                alpha: 1
-            }, 500, Phaser.Easing.Quintic.Out, true, 100, 0, false);
-        };
-        Main.prototype.update = function () {
-            if (this.controller.controls.start.pressed) {
-                this.state.start("PlayTest", true, false);
-            }
-        };
-        return Main;
-    }(Phaser.State));
-    LD42.Main = Main;
-})(LD42 || (LD42 = {}));
-var LD42;
-(function (LD42) {
-    var Control = Controls.Control;
     var approach = Helpers.approach;
-    var PlayTest = (function (_super) {
-        __extends(PlayTest, _super);
-        function PlayTest() {
+    var Play = (function (_super) {
+        __extends(Play, _super);
+        function Play() {
             var _this = _super !== null && _super.apply(this, arguments) || this;
+            _this.status = -1;
             _this.init_count = 0;
-            _this.init_time = 0;
-            _this.gameState = "begin";
-            _this.unlocked = 0;
-            _this.currLock = 0;
-            _this.lockValues = [];
-            _this.timerCurr = 60;
-            _this.timerMaxTime = 60;
+            _this.init_alpha = 0;
+            _this.lock = 0;
+            _this.lock_values = [];
+            _this.wall_time = 0;
+            _this.wall_time_count = 0;
+            _this.wall_time_max = 64;
+            _this.test_timer = 0;
             return _this;
         }
-        PlayTest.prototype.shutdown = function () {
-            this.init_time = 0;
-            this.init_count = 0;
+        Play.prototype.__boot = function () {
             this.controller = null;
-            this.g_spriteGroup = null;
-            this.g_soundGroup = null;
-            this.g_uiGroup = null;
-            this.objectGroups = null;
-            this.gameState = "begin";
+            this.groups = null;
+            this.sounds = null;
+            this.sprites = null;
+            this.ui = null;
+            this.status = -1;
+            this.init_count = 0;
+            this.init_alpha = 0;
+            this.lock = 0;
+            this.lock_values = [];
             this.unlocked = 0;
-            this.currLock = 0;
-            this.lockValues = [];
-            this.timer = null;
-            this.timerCurr = 60;
-            this.timerMaxTime = 60;
-            this.game.world.removeAll(true);
         };
-        PlayTest.prototype.create = function () {
-            this.g_spriteGroup = {
+        Play.prototype.__init = function () {
+            this.controller = new Control(this.game);
+            this.groups = {
+                bg: this.game.add.group(),
+                next: this.game.add.group(),
+                current: this.game.add.group(),
+                prev: this.game.add.group(),
+                ui: this.game.add.group(),
+                overlay: this.game.add.group()
+            };
+            this.sounds = {};
+            this.sprites = {
                 bg: null,
                 dial: null,
                 doorL: null,
@@ -712,349 +784,66 @@ var LD42;
                 nextDial: null,
                 nextDoorL: null,
                 nextDoorR: null,
-                wallOver: null,
-                wallText: null
+                wallText: null,
+                wallShadow: null
             };
-            this.g_uiGroup = {
-                currLabel: null,
-                prevLabel: null,
-                nextLabel: null,
-                overLabel: null,
-                scoreLabel: null
+            this.ui = {
+                label_1: null,
+                label_2: null,
+                label_3: null,
+                label_4: null,
+                label_5: null
             };
-            this.g_soundGroup = {};
+            this.generateLabels();
             this.loadSounds();
-            this.controller = new Control(this.game, "controller_p1");
-            this.objectGroups = {
-                background: this.game.add.group(),
-                next: this.game.add.group(),
-                current: this.game.add.group(),
-                previous: this.game.add.group(),
-                ui: this.game.add.group(),
-                overlay: this.game.add.group()
-            };
-            this.g_spriteGroup.bg = this.game.add.tileSprite(0, 0, 64, 64, "bg_main");
-            this.objectGroups.background.add(this.g_spriteGroup.bg);
-            this.g_spriteGroup.doorL = new LD42.Door(this.game, 0, 0);
-            this.g_spriteGroup.doorL.x = this.world.centerX;
-            this.g_spriteGroup.doorL.y = this.world.centerY;
-            this.objectGroups.current.add(this.g_spriteGroup.doorL);
-            this.g_spriteGroup.doorR = new LD42.Door(this.game, 0, 0, true);
-            this.g_spriteGroup.doorR.x = this.world.centerX;
-            this.g_spriteGroup.doorR.y = this.world.centerY;
-            this.objectGroups.current.add(this.g_spriteGroup.doorR);
-            this.g_spriteGroup.dial = new LD42.Dial(this.game, 0, 0);
-            this.g_spriteGroup.dial.x = this.world.centerX;
-            this.g_spriteGroup.dial.y = this.world.centerY;
-            this.objectGroups.current.add(this.g_spriteGroup.dial);
-            this.g_spriteGroup.wallOver = this.game.add.tileSprite(0, 64, 64, 64, "ui_wall_over");
-            this.objectGroups.ui.add(this.g_spriteGroup.wallOver);
-            this.objectGroups.ui.bringToTop(this.g_spriteGroup.wallOver);
-            this.g_spriteGroup.wallOver.alpha = 0;
-            this.g_spriteGroup.wallText = this.game.add.tileSprite(0, 0, 64, 64, "ui_wall");
-            this.objectGroups.overlay.add(this.g_spriteGroup.wallText);
+            this.sprites.bg = this.game.add.sprite(0, 0, "bg_corridor_sprite");
+            this.sprites.bg.animations.add("move", null, 30, true);
+            this.sprites.bg.animations.play("move");
+            this.groups.bg.add(this.sprites.bg);
+            this.sprites.doorL = new LD42.Door(this.game, this.world.centerX, this.world.centerY, false, this.groups.current);
+            this.sprites.doorR = new LD42.Door(this.game, this.world.centerX, this.world.centerY, true, this.groups.current);
+            this.sprites.dial = new LD42.Dial(this.game, this.world.centerX, this.world.centerY, this.groups.current);
+            this.sprites.wallText = this.game.add.sprite(0, 0, "ui_wall");
+            this.sprites.wallText.alpha = 0;
+            this.groups.overlay.add(this.sprites.wallText);
+            this.sprites.wallShadow = this.game.add.sprite(0, 64, "ui_wall_shadow");
+            this.sprites.wallShadow.alpha = 0;
+            this.groups.overlay.add(this.sprites.wallShadow);
+            this.game.time.events.add(Phaser.Timer.SECOND, this.initTimerEvent, this);
         };
-        PlayTest.prototype.update = function () {
-            switch (this.gameState) {
-                case "begin":
-                    this.handleStart();
-                    break;
-                case "change":
-                    this.handleLevelChange();
-                    this.gameState = "wait";
-                    break;
-                case "wait":
-                    console.log("WAIT");
-                    break;
-                case "over":
-                    this.handleOver();
-                    break;
-                case "end":
-                    if (this.controller.controls.start.pressed) {
-                        this.g_soundGroup.song.stop();
-                        this.state.start("Main");
-                    }
-                    break;
-                case "unlock":
-                default:
-                    this.handleGamePlay();
-                    break;
+        Play.prototype.initTimerEvent = function () {
+            this.init_count += 1;
+            this.sounds.bell.play();
+            if (this.init_count === 1) {
+                this.status = 0;
+                this.playWallVoice();
             }
-        };
-        PlayTest.prototype.handleOver = function () {
-            this.gameState = "end";
-            var _a = this.g_uiGroup, prevLabel = _a.prevLabel, currLabel = _a.currLabel, nextLabel = _a.nextLabel;
-            this.g_soundGroup.song.volume = 0.1;
-            if (prevLabel) {
-                this.game.add.tween(prevLabel).to({
-                    y: -16,
-                    alpha: 0
-                }, 300, Phaser.Easing.Linear.None, true);
-            }
-            if (currLabel) {
-                this.game.add.tween(currLabel).to({
-                    y: -16,
-                    alpha: 0
-                }, 300, Phaser.Easing.Linear.None, true);
-            }
-            if (nextLabel) {
-                this.game.add.tween(nextLabel).to({
-                    y: -16,
-                    alpha: 0
-                }, 300, Phaser.Easing.Linear.None, true);
-            }
-            var overText = this.game.add.bitmapText(0, 0, "yx_ui", "GAME OVER", 10);
-            overText.anchor.setTo(0.5, 0.5);
-            overText.tint = 0xffffff;
-            overText.x = this.game.world.centerX;
-            overText.y = this.game.world.centerY + 16;
-            overText.alpha = 0;
-            this.game.add.tween(overText).to({
-                y: this.game.world.centerY - 16,
-                alpha: 1
-            }, 500, Phaser.Easing.Quintic.Out, true, 100, 0, false);
-            this.g_uiGroup.overLabel = overText;
-            var scoreText = this.game.add.bitmapText(0, 0, "yx_ui", this.unlocked.toString(), 20);
-            scoreText.anchor.setTo(0.5, 0.5);
-            scoreText.tint = 0xffffff;
-            scoreText.x = this.game.world.centerX;
-            scoreText.y = this.game.world.centerY + 16;
-            scoreText.alpha = 0;
-            this.game.add.tween(scoreText).to({
-                y: this.game.world.centerY - 4,
-                alpha: 1
-            }, 500, Phaser.Easing.Quintic.Out, true, 100, 0, false);
-            this.g_uiGroup.scoreLabel = scoreText;
-        };
-        PlayTest.prototype.handleStart = function () {
-            if (this.init_time >= 18) {
-                this.initVals();
-                this.g_soundGroup.song.play();
-                this.timer = this.game.time.now;
-                this.game.add.tween(this.g_spriteGroup.wallText).to({
-                    alpha: 0
-                }, 100, Phaser.Easing.Linear.None, true, 0, 0, false).onComplete.add(function () {
-                }, this);
-                this.gameState = "run";
+            if (this.init_count < 5) {
+                this.game.time.events.add(Phaser.Timer.SECOND, this.initTimerEvent, this);
             }
             else {
-                if (this.init_time == 0 && this.init_count == 0) {
-                    this.playWallSound();
-                }
-                this.init_count += 0.1;
-                this.g_spriteGroup.wallText.alpha = Math.abs(Math.sin(this.init_count));
-                if (this.g_spriteGroup.wallText.alpha > 0.95
-                    && Math.sign(Math.sin(this.init_count)) > 0) {
-                    this.g_spriteGroup.wallText.alpha = 1;
-                    this.init_time += 1;
-                    if (this.g_soundGroup.bell.isPlaying) {
-                        this.g_soundGroup.bell.stop();
-                    }
-                    this.g_soundGroup.bell.play();
-                    console.log(this.init_time);
-                }
+                this.status = 1;
+                this.sprites.wallText.alpha = 0;
+                this.populateLabels();
+                this.sounds.song.play();
+                this.sounds.wall_loop.play();
             }
         };
-        PlayTest.prototype.handleGamePlay = function () {
-            var controls = this.controller.controls;
-            var dial = this.g_spriteGroup.dial;
-            dial.direction = controls.right.hold - controls.left.hold;
-            if (dial.turn) {
-                var tempVals = this.lockValues[this.currLock], tempTurn = dial.turn, tempSign = Math.sign(tempVals), tempText = void 0, tempMove = void 0;
-                console.log(tempVals + " : " + tempTurn);
-                if (Math.sign(tempVals) === Math.sign(tempTurn)) {
-                    tempMove = approach(Math.abs(tempVals), 0, Math.abs(tempTurn));
-                }
-                else {
-                    tempMove = Math.abs(tempVals) + Math.abs(tempTurn);
-                }
-                this.lockValues[this.currLock] = tempMove * tempSign;
-                tempText = (tempSign < 0)
-                    ? "L" + tempMove.toString()
-                    : "R" + tempMove.toString();
-                if (this.g_uiGroup.currLabel) {
-                    this.g_uiGroup.currLabel.text = tempText;
-                }
-                if (tempMove == 0) {
-                    dial.direction = 0;
-                    this.handleLabelChange();
-                }
+        Play.prototype.loadSounds = function () {
+            for (var i = 1; i <= 5; i++) {
+                this.sounds["door_0" + i] = this.game.add.sound("snd_door_0" + i, 0.3, false);
             }
-            if ((this.game.time.now - this.timer) / 1000 > 1) {
-                this.timer = this.game.time.now;
-                this.timerCurr -= 1;
-                if (this.timerCurr === 0) {
-                    dial.direction = 0;
-                    this.gameState = "over";
-                }
+            for (var i = 1; i <= 4; i++) {
+                this.sounds["lock_0" + i] = this.game.add.sound("snd_lock_0" + i, 0.3, false);
             }
-            var temp = 64 - Math.round((this.timerCurr / this.timerMaxTime) * 64);
-            temp = 64 - temp;
-            if (this.g_spriteGroup.wallOver.y > 0) {
-                this.g_spriteGroup.wallOver.y = temp;
-                this.g_spriteGroup.wallOver.alpha = 1 - (temp / 64);
+            for (var i = 1; i <= 4; i++) {
+                this.sounds["wall_0" + i] = this.game.add.sound("vox_wall_0" + i, 0.75, false);
             }
+            this.sounds.bell = this.game.add.sound("snd_bell_01", 0.3, false);
+            this.sounds.song = this.game.add.sound("ld42_song", 0.3, true);
+            this.sounds.wall_loop = this.game.add.sound("snd_wall_loop", 0.0, true);
         };
-        PlayTest.prototype.handleLevelChange = function () {
-            this.gameState = "wait";
-            this.unlocked += 1;
-            if (this.unlocked === 10) {
-                this.timerCurr = approach(this.timerCurr, this.timerMaxTime, 6);
-                this.g_soundGroup.bell.play();
-            }
-            else {
-                this.timerCurr = approach(this.timerCurr, this.timerMaxTime, 3);
-            }
-            var game = this.game;
-            var _a = this.g_spriteGroup, dial = _a.dial, doorL = _a.doorL, doorR = _a.doorR, wallOver = _a.wallOver;
-            var _b = this.objectGroups, previous = _b.previous, current = _b.current;
-            var tempDial = dial, tempDoorL = doorL, tempDoorR = doorR;
-            this.g_spriteGroup.doorL = new LD42.Door(this.game, 0, 0);
-            this.g_spriteGroup.doorL.x = this.world.centerX;
-            this.g_spriteGroup.doorL.y = this.world.centerY;
-            this.g_spriteGroup.doorL.scale.setTo(0.5, 0.5);
-            this.g_spriteGroup.doorR = new LD42.Door(this.game, 0, 0, true);
-            this.g_spriteGroup.doorR.x = this.world.centerX;
-            this.g_spriteGroup.doorR.y = this.world.centerY;
-            this.g_spriteGroup.doorR.scale.setTo(0.5, 0.5);
-            this.g_spriteGroup.dial = new LD42.Dial(this.game, 0, 0);
-            this.g_spriteGroup.dial.x = this.world.centerX;
-            this.g_spriteGroup.dial.y = this.world.centerY;
-            this.g_spriteGroup.dial.scale.setTo(0.5, 0.5);
-            current.add(this.g_spriteGroup.doorL);
-            current.add(this.g_spriteGroup.doorR);
-            current.add(this.g_spriteGroup.dial);
-            current.remove(tempDial);
-            current.remove(tempDoorL);
-            current.remove(tempDoorR);
-            previous.add(tempDoorL);
-            previous.add(tempDoorR);
-            previous.add(tempDial);
-            tempDial.bringToTop();
-            var sign = (Math.random() < .5) ? -1 : 1;
-            game.add.tween(tempDial).to({
-                y: tempDial.y + 96
-            }, 500, Phaser.Easing.Back.In, true, 0, 0);
-            game.add.tween(tempDial).to({
-                x: tempDial.x + Math.round(Math.random() * 32) * sign,
-                angle: tempDial.angle + 40
-            }, 500, Phaser.Easing.Linear.None, true, 0, 0);
-            game.add.tween(tempDial).to({
-                alpha: 0
-            }, 200, Phaser.Easing.Linear.None, true, 200, 0);
-            game.add.tween(tempDial.scale).to({
-                x: 2,
-                y: 2
-            }, 500, Phaser.Easing.Linear.None, true, 0, 0, false);
-            game.add.tween(tempDoorL).to({
-                x: tempDoorL.x - tempDoorL.width
-            }, 1000, Phaser.Easing.Exponential.Out, true, 200, 0, false);
-            game.add.tween(tempDoorL).to({
-                alpha: 0
-            }, 1000, Phaser.Easing.Linear.None, true, 300, 0, false);
-            game.add.tween(tempDoorL.scale).to({
-                x: 2,
-                y: 2
-            }, 1000, Phaser.Easing.Exponential.Out, true, 300, 0, false);
-            game.add.tween(tempDoorR).to({
-                x: tempDoorR.x + tempDoorR.width
-            }, 1000, Phaser.Easing.Exponential.Out, true, 200, 0, false);
-            game.add.tween(tempDoorR).to({
-                alpha: 0
-            }, 1000, Phaser.Easing.Linear.None, true, 300, 0, false);
-            game.add.tween(tempDoorR.scale).to({
-                x: 2,
-                y: 2
-            }, 1000, Phaser.Easing.Exponential.Out, true, 300, 0, false);
-            game.add.tween(wallOver).to({
-                y: Math.round((this.timerCurr / this.timerMaxTime) * 64),
-                alpha: 1 - (this.timerCurr / this.timerMaxTime)
-            }, 500 * ((64 - wallOver.y) / 64), Phaser.Easing.Linear.None, true, 300, 0);
-            game.add.tween(this.g_spriteGroup.doorL.scale).to({
-                x: 1,
-                y: 1
-            }, 1000, Phaser.Easing.Quadratic.Out, true, 1000, 0, false);
-            game.add.tween(this.g_spriteGroup.doorR.scale).to({
-                x: 1,
-                y: 1
-            }, 1000, Phaser.Easing.Quadratic.Out, true, 1000, 0, false);
-            var dialMove = game.add.tween(this.g_spriteGroup.dial.scale).to({
-                x: 1,
-                y: 1
-            }, 1000, Phaser.Easing.Quadratic.Out, true, 1000, 0, false);
-            dialMove.onComplete.add(function () {
-                this.gameState = "run";
-                this.lockValues = [];
-                this.initVals();
-            }, this);
-            this.playDoorSound();
-        };
-        PlayTest.prototype.handleLabelChange = function () {
-            var curr, next, prev, discard;
-            this.playLockSound();
-            discard = this.g_uiGroup.prevLabel;
-            this.game.add.tween(discard).to({
-                y: this.game.world.centerY - 16,
-                alpha: 0
-            }, 500, Phaser.Easing.Quintic.Out, true, 100, 0, false).onComplete.add(function () {
-                discard.destroy();
-            }, this);
-            if (this.currLock == this.lockValues.length - 1) {
-                this.gameState = "change";
-                var currDiscard_1 = this.g_uiGroup.currLabel;
-                currDiscard_1.text = "OK!";
-                this.game.add.tween(currDiscard_1).to({
-                    y: this.game.world.centerY - 8,
-                    alpha: 0
-                }, 500, Phaser.Easing.Quintic.Out, true, 100, 0, false).onComplete.add(function () {
-                    currDiscard_1.destroy();
-                }, this);
-                this.g_uiGroup.prevLabel = null;
-                this.g_uiGroup.currLabel = null;
-                this.handleLevelChange();
-            }
-            else {
-                console.log(this.currLock);
-                this.currLock += 1;
-                console.log(this.currLock);
-                prev = this.g_uiGroup.currLabel;
-                prev.text = "OK!";
-                this.game.add.tween(prev).to({
-                    y: this.game.world.centerY - 8,
-                    alpha: .25
-                }, 500, Phaser.Easing.Quintic.Out, true, 100, 0, false);
-                this.g_uiGroup.prevLabel = prev;
-                curr = this.g_uiGroup.nextLabel;
-                this.game.add.tween(curr).to({
-                    y: this.game.world.centerY,
-                    alpha: 1
-                }, 500, Phaser.Easing.Quintic.Out, true, 100, 0, false).onComplete.add(function () {
-                    this.gameState = "run";
-                }, this);
-                this.g_uiGroup.currLabel = curr;
-                if (this.currLock < this.lockValues.length - 1) {
-                    var nextVal = (this.lockValues[this.currLock + 1] < 0)
-                        ? "L" + Math.abs(this.lockValues[this.currLock + 1]).toString()
-                        : "R" + this.lockValues[this.currLock + 1].toString();
-                    next = this.game.add.bitmapText(0, 0, "yx_ui", nextVal, 10);
-                    next.x = this.game.world.centerX;
-                    next.y = this.game.world.centerY + 32;
-                    next.anchor.setTo(0.5, 0.5);
-                    next.alpha = 0;
-                    next.tint = 0x999999;
-                    this.game.add.tween(next).to({
-                        y: this.game.world.centerY + 8,
-                        alpha: 0.25
-                    }, 500, Phaser.Easing.Quintic.Out, true, 100, 0, false);
-                    this.g_uiGroup.nextLabel = next;
-                    this.objectGroups.ui.add(this.g_uiGroup.nextLabel);
-                }
-                else {
-                    this.g_uiGroup.nextLabel = null;
-                }
-            }
-        };
-        PlayTest.prototype.generateAngles = function () {
+        Play.prototype.generateValues = function () {
             var values = [], curr = 0, rand = 0;
             while (values.length < 5) {
                 rand = Math.round(Math.random() * 360);
@@ -1065,110 +854,232 @@ var LD42;
                     values.push(rand);
                 }
             }
-            this.currLock = 0;
-            this.lockValues = values;
-            console.log("HY");
+            this.lock = 0;
+            this.lock_values = values;
         };
-        PlayTest.prototype.initVals = function () {
-            this.generateAngles();
-            var currVal = (this.lockValues[0] < 0)
-                ? "L" + Math.abs(this.lockValues[0]).toString()
-                : "R" + this.lockValues[0].toString();
-            var currLabel = this.game.add.bitmapText(0, 0, "yx_ui", currVal, 10);
-            currLabel.x = this.game.world.centerX;
-            currLabel.y = this.game.world.centerY + 16;
-            currLabel.anchor.set(0.5, 0.5);
-            currLabel.alpha = 0;
-            currLabel.tint = 0x999999;
-            this.game.add.tween(currLabel).to({
-                y: this.game.world.centerY,
-                alpha: 1
-            }, 500, Phaser.Easing.Quintic.Out, true, 100, 0, false);
-            this.g_uiGroup.currLabel = currLabel;
-            this.objectGroups.ui.add(this.g_uiGroup.currLabel);
-            var nextVal = (this.lockValues[1] < 0)
-                ? "L" + Math.abs(this.lockValues[1]).toString()
-                : "R" + this.lockValues[1].toString();
-            var nextLabel = this.game.add.bitmapText(0, 0, "yx_ui", nextVal, 10);
-            nextLabel.x = this.game.world.centerX;
-            nextLabel.y = this.game.world.centerY + 32;
-            nextLabel.anchor.set(0.5, 0.5);
-            nextLabel.alpha = 0;
-            nextLabel.tint = 0x999999;
-            this.game.add.tween(nextLabel).to({
-                y: this.game.world.centerY + 8,
-                alpha: 0.25
-            }, 500, Phaser.Easing.Quintic.Out, true, 100, 0, false);
-            this.g_uiGroup.nextLabel = nextLabel;
-            this.objectGroups.ui.add(this.g_uiGroup.nextLabel);
-        };
-        PlayTest.prototype.loadSounds = function () {
+        Play.prototype.generateLabels = function () {
             for (var i = 1; i <= 5; i++) {
-                this.g_soundGroup["door_0" + i] = this.game.add.sound("snd_door_0" + i, 0.3, false);
+                var label_name = "label_" + i.toString(), label_temp = this.game.add.bitmapText(0, 0, "yx_ui", "---", 10);
+                label_temp.tint = 0xff0000;
+                label_temp.anchor.setTo(0.5, 0.5);
+                label_temp.x = this.world.centerX;
+                label_temp.y = this.world.centerY + 30;
+                label_temp.alpha = 0;
+                this.groups.ui.add(label_temp);
+                this.ui[label_name] = label_temp;
             }
-            for (var i = 1; i <= 4; i++) {
-                this.g_soundGroup["lock_0" + i] = this.game.add.sound("snd_lock_0" + i, 0.3, false);
-            }
-            for (var i = 1; i <= 4; i++) {
-                this.g_soundGroup["wall_0" + i] = this.game.add.sound("vox_wall_0" + i, 0.3, false);
-            }
-            this.g_soundGroup.bell = this.game.add.sound("snd_bell_01", 0.3, false);
-            this.g_soundGroup.song = this.game.add.sound("ld42_song", 0.3, true);
         };
-        PlayTest.prototype.playDoorSound = function () {
-            switch (Math.round(Math.random() * 5)) {
+        Play.prototype.destroyLabels = function () {
+            for (var i = 1; i <= 5; i++) {
+                var label_name = "label_" + i.toString();
+                this.groups.ui.remove(this.ui[label_name]);
+                this.ui[label_name].destroy();
+            }
+        };
+        Play.prototype.populateLabels = function () {
+            this.generateValues();
+            this.ui.label_1.text = this.setLabelValue(this.lock_values[this.lock]);
+            this.ui.label_1.anchor.setTo(0.5, 0.5);
+            this.ui.label_1.x = this.world.centerX;
+            this.ui.label_1.y = this.world.centerY + 8;
+            this.ui.label_1.alpha = 0;
+            this.game.add.tween(this.ui.label_1).to({
+                y: this.world.centerY,
+                alpha: .8
+            }, 500, Phaser.Easing.Quintic.Out, true);
+            this.ui.label_2.text = this.setLabelValue(this.lock_values[this.lock + 1]);
+            this.ui.label_2.anchor.setTo(0.5, 0.5);
+            this.ui.label_2.x = this.world.centerX;
+            this.ui.label_2.y = this.world.centerY + 16;
+            this.ui.label_1.alpha = 0;
+            this.game.add.tween(this.ui.label_2).to({
+                y: this.world.centerY + 8,
+                alpha: .25
+            }, 500, Phaser.Easing.Quintic.Out, true);
+        };
+        Play.prototype.unlockValue = function () {
+            var curr, next, prev, discard, recycle;
+            this.playLockSound();
+            if (this.lock == this.lock_values.length - 1) {
+                this.status = 2;
+                this.playDoorSound();
+                this.game.add.tween(this.ui.label_4).to({
+                    y: this.game.world.centerY - 16,
+                    alpha: 0
+                }, 300, Phaser.Easing.Quintic.Out, true, 0, 0, false);
+                this.game.add.tween(this.ui.label_1).to({
+                    y: this.game.world.centerY - 8,
+                    alpha: 0
+                }, 300, Phaser.Easing.Quintic.Out, true, 0, 0, false).onComplete.add(function () {
+                    this.lock = 0;
+                    this.unlocked += 1;
+                    this.handleLevelChange();
+                }, this);
+            }
+            else {
+                recycle = this.ui.label_5;
+                discard = this.ui.label_4;
+                this.game.add.tween(discard).to({
+                    y: this.game.world.centerY - 16,
+                    alpha: 0
+                }, 300, Phaser.Easing.Quintic.Out, true, 0, 0, false);
+                this.ui.label_5 = discard;
+                this.lock += 1;
+                prev = this.ui.label_1;
+                prev.text = "OK!";
+                this.game.add.tween(prev).to({
+                    y: this.game.world.centerY - 8,
+                    alpha: .25
+                }, 300, Phaser.Easing.Quintic.Out, true, 0, 0, false);
+                this.ui.label_4 = prev;
+                curr = this.ui.label_2;
+                this.game.add.tween(curr).to({
+                    y: this.game.world.centerY,
+                    alpha: 0.8
+                }, 300, Phaser.Easing.Quintic.Out, true, 0, 0, false).onComplete.add(function () {
+                    this.gameState = "run";
+                }, this);
+                this.ui.label_1 = curr;
+                if (this.lock < this.lock_values.length - 1) {
+                    next = this.ui.label_3;
+                    next.text = this.setLabelValue(this.lock_values[this.lock + 1]);
+                    next.y = this.game.world.centerY + 16;
+                    this.game.add.tween(next).to({
+                        y: this.game.world.centerY + 8,
+                        alpha: .25
+                    }, 300, Phaser.Easing.Quintic.Out, true, 0, 0, false);
+                    this.ui.label_2 = next;
+                    this.ui.label_3 = recycle;
+                }
+            }
+        };
+        Play.prototype.setLabelValue = function (value) {
+            if (Math.sign(value) < 0) {
+                return "L" + Math.abs(value);
+            }
+            else {
+                return "R" + Math.abs(value);
+            }
+        };
+        Play.prototype.handleLevelChange = function () {
+            var tempDial, tempDoorL, tempDoorR;
+            this.destroyLabels();
+            tempDoorL = this.sprites.doorL;
+            this.groups.current.remove(tempDoorL);
+            this.groups.prev.add(tempDoorL);
+            tempDoorL.killDoor();
+            tempDoorR = this.sprites.doorR;
+            this.groups.current.remove(tempDoorR);
+            this.groups.prev.add(tempDoorR);
+            tempDoorR.killDoor();
+            tempDial = this.sprites.dial;
+            this.groups.current.remove(tempDial);
+            this.groups.prev.add(tempDial);
+            tempDial.killDial();
+            this.sprites.doorL = new LD42.Door(this.game, this.world.centerX, this.world.centerY, false, this.groups.current);
+            this.sprites.doorL.scale.setTo(0.5, 0.5);
+            this.game.add.tween(this.sprites.doorL.scale).to({
+                x: 1,
+                y: 1
+            }, 1000, Phaser.Easing.Quartic.Out, true, 500, 0, false);
+            this.sprites.doorR = new LD42.Door(this.game, this.world.centerX, this.world.centerY, true, this.groups.current);
+            this.sprites.doorR.scale.setTo(0.5, 0.5);
+            this.game.add.tween(this.sprites.doorR.scale).to({
+                x: 1,
+                y: 1
+            }, 1000, Phaser.Easing.Quartic.Out, true, 500, 0, false);
+            this.sprites.dial = new LD42.Dial(this.game, this.world.centerX, this.world.centerY, this.groups.current);
+            this.sprites.dial.scale.setTo(0.5, 0.5);
+            this.game.add.tween(this.sprites.dial.scale).to({
+                x: 1,
+                y: 1
+            }, 1000, Phaser.Easing.Quartic.Out, true, 500, 0, false).onComplete.add(function () {
+                this.generateLabels();
+                this.populateLabels();
+                this.status = 1;
+            }, this);
+        };
+        Play.prototype.playDoorSound = function () {
+            var curr = (1 + Math.floor(Math.random() * 4)).toString();
+            this.sounds["door_0" + curr].play();
+        };
+        Play.prototype.playLockSound = function () {
+            var curr = (1 + Math.floor(Math.random() * 3)).toString();
+            this.sounds["lock_0" + curr].play();
+        };
+        Play.prototype.playWallVoice = function () {
+            var curr = (1 + Math.floor(Math.random() * 3)).toString();
+            this.sounds["wall_0" + curr].play();
+        };
+        Play.prototype.statusInit = function () {
+            this.init_alpha += 1;
+            this.sprites.wallText.alpha = this.init_alpha / 60;
+            if (this.init_alpha == 60)
+                this.init_alpha = 0;
+        };
+        Play.prototype.statusPlay = function () {
+            var controls = this.controller.controls;
+            var turn = controls.right.hold - controls.left.hold;
+            this.sprites.dial.direction = (turn != 0) ? turn : 0;
+            this.wall_time_count += 1;
+            if (this.wall_time_count % 60 == 0) {
+                this.wall_time += 1;
+            }
+            if (this.sprites.wallShadow.y > 0) {
+                this.sprites.wallShadow.alpha = this.wall_time / 64;
+                this.sprites.wallShadow.y = 64 - this.wall_time;
+                this.sounds.wall_loop.volume = .5 * (this.wall_time / 64);
+            }
+            if (Math.abs(this.sprites.dial.turn) > 0) {
+                var tempVals = this.lock_values[this.lock], tempTurn = this.sprites.dial.turn, tempSign = Math.sign(tempVals), tempMove = void 0;
+                if (Math.sign(tempVals) === Math.sign(tempTurn)) {
+                    tempMove = approach(Math.abs(tempVals), 0, Math.abs(tempTurn));
+                }
+                else {
+                    tempMove = Math.abs(tempVals) + Math.abs(tempTurn);
+                }
+                this.lock_values[this.lock] = tempMove * tempSign;
+                if (tempMove === 0) {
+                    this.unlockValue();
+                }
+                else {
+                    this.ui.label_1.text = this.setLabelValue(this.lock_values[this.lock]);
+                }
+            }
+        };
+        Play.prototype.statusUnlock = function () {
+        };
+        Play.prototype.statusOver = function () {
+        };
+        Play.prototype.create = function () {
+            this.__boot();
+            this.__init();
+        };
+        Play.prototype.update = function () {
+            switch (this.status) {
+                case 1:
+                    this.statusPlay();
+                    break;
                 case 2:
-                    this.g_soundGroup.door_02.play();
                     break;
                 case 3:
-                    this.g_soundGroup.door_03.play();
                     break;
                 case 4:
-                    this.g_soundGroup.door_04.play();
                     break;
                 case 5:
-                    this.g_soundGroup.door_05.play();
                     break;
                 default:
-                    this.g_soundGroup.door_01.play();
+                    this.statusInit();
                     break;
             }
         };
-        PlayTest.prototype.playLockSound = function () {
-            switch (Math.round(Math.random() * 4)) {
-                case 2:
-                    this.g_soundGroup.lock_02.play();
-                    break;
-                case 3:
-                    this.g_soundGroup.lock_03.play();
-                    break;
-                case 4:
-                    this.g_soundGroup.lock_04.play();
-                    break;
-                default:
-                    this.g_soundGroup.lock_01.play();
-                    break;
-            }
+        Play.prototype.shutdown = function () {
+            this.game.world.removeAll(true);
+            this.__boot();
         };
-        PlayTest.prototype.playWallSound = function () {
-            switch (Math.round(Math.random() * 4)) {
-                case 2:
-                    this.g_soundGroup.wall_02.play();
-                    break;
-                case 3:
-                    this.g_soundGroup.wall_03.play();
-                    break;
-                case 4:
-                    this.g_soundGroup.wall_04.play();
-                    break;
-                default:
-                    this.g_soundGroup.wall_01.play();
-                    break;
-            }
-        };
-        return PlayTest;
+        return Play;
     }(Phaser.State));
-    LD42.PlayTest = PlayTest;
+    LD42.Play = Play;
 })(LD42 || (LD42 = {}));
 var LD42;
 (function (LD42) {
@@ -1177,7 +1088,7 @@ var LD42;
         function Preload() {
             return _super !== null && _super.apply(this, arguments) || this;
         }
-        Preload.prototype.setLoaderImage = function () {
+        Preload.prototype.setLoaderImages = function () {
             this.preloadOut = this.add.sprite(this.game.world.centerX, this.game.world.centerY, "loader_out");
             this.preloadOut.x -= this.preloadOut.width / 2;
             this.preloadOut.y -= this.preloadOut.height / 2;
@@ -1188,7 +1099,7 @@ var LD42;
             this.load.setPreloadSprite(this.preloadBar, 0);
         };
         Preload.prototype.preload = function () {
-            this.setLoaderImage();
+            this.setLoaderImages();
             for (var _i = 0, _a = LD42.Assets.image; _i < _a.length; _i++) {
                 var image = _a[_i];
                 if (!image.ignore) {
@@ -1208,14 +1119,14 @@ var LD42;
                 }
             }
             for (var _f = 0, _g = LD42.Assets.bitmapfont; _f < _g.length; _f++) {
-                var font = _g[_f];
-                if (!font.ignore) {
-                    this.load.bitmapFont(font.name, font.texture, font.atlas, font.atlasData);
+                var bitmapfont = _g[_f];
+                if (!bitmapfont.ignore) {
+                    this.load.bitmapFont(bitmapfont.name, bitmapfont.texture, bitmapfont.atlas, bitmapfont.atlasData);
                 }
             }
         };
         Preload.prototype.create = function () {
-            this.state.start("Main");
+            this.state.start("Title");
         };
         return Preload;
     }(Phaser.State));
@@ -1224,89 +1135,143 @@ var LD42;
 var LD42;
 (function (LD42) {
     var Control = Controls.Control;
-    var Test = (function (_super) {
-        __extends(Test, _super);
-        function Test() {
+    var Title = (function (_super) {
+        __extends(Title, _super);
+        function Title() {
             var _this = _super !== null && _super.apply(this, arguments) || this;
-            _this.degrees = 0;
+            _this.finish = false;
+            _this.status = -1;
             return _this;
         }
-        Test.prototype.create = function () {
-            this.count = 0;
-            this.controller = new Control(this.game, "controller_p1");
-            this.game_bg = this.game.add.tileSprite(0, 0, 64, 64, "bg_main");
-            this.game_bg.alpha = 0.5;
-            this.objectGroups = {
-                next: this.game.add.group(),
-                current: this.game.add.group()
-            };
-            this.dial = new LD42.Dial(this.game, this.game.world.centerX, this.game.world.centerY);
-            this.nextDial = new LD42.Dial(this.game, this.game.world.centerX, this.game.world.centerY);
-            this.nextDial.scale.setTo(0.5, 0.5);
-            this.objectGroups.next.add(this.nextDial);
-            this.objectGroups.current.add(this.dial);
-            this.soundGroup = {};
-            this.uiGroup = {};
-            this.soundGroup.door_01 = this.game.add.sound("snd_door_01", 0.5, false);
-            this.uiGroup.dialText = this.game.add.text(0, 0, this.degrees.toString(), {
-                align: "center",
-                fill: "#000",
-                font: "yx_ui",
-                fontSize: 8,
-                fontWeight: 400
-            });
-            this.uiGroup.dialText.x = this.game.world.centerX - this.uiGroup.dialText.width / 2;
-            this.uiGroup.dialText.y = this.game.world.centerY - this.uiGroup.dialText.height / 2;
+        Title.prototype.__boot = function () {
+            this.bg = null;
+            this.controller = null;
+            this.credit = null;
+            this.finish = false;
+            this.press = null;
+            this.sounds = null;
+            this.status = -1;
+            this.title = null;
         };
-        Test.prototype.update = function () {
-            this.handleDial();
-            this.game_bg.alpha = Math.abs(1 * Math.sin(this.count / 8));
-            if (this.dial.turn != 0) {
-                this.degrees += this.dial.turn;
-            }
-            if (Math.abs(this.degrees) < 5
-                && this.dial.direction != 0
-                && !this.soundGroup.door_01.isPlaying) {
+        Title.prototype.loadSounds = function () {
+            this.sounds.intro = this.game.add.sound("ld42_intro", 0, true);
+            this.sounds.start = this.game.add.sound("snd_start_01", 0.3, false);
+        };
+        Title.prototype.drawTitleScreen = function () {
+            this.bg = this.game.add.graphics(0, 0);
+            this.bg.alpha = 0;
+            this.bg.beginFill(0xffffff);
+            this.bg.drawRect(0, 0, 64, 64);
+            this.bg.endFill();
+            this.game.add.tween(this.bg).to({
+                alpha: 1
+            }, 500, Phaser.Easing.Linear.None, true, 0, 0, false);
+            this.title = this.game.add.sprite(0, 0, "ui_title", 0);
+            this.title.anchor.setTo(0.5, 0.5);
+            this.title.x = this.world.centerX;
+            this.title.y = this.world.centerY + 8;
+            this.title.alpha = 0;
+            this.game.add.tween(this.title).to({
+                y: 21,
+                alpha: 1
+            }, 500, Phaser.Easing.Quintic.Out, true, 500, 0, false);
+            this.credit = this.game.add.bitmapText(0, 0, "envy_code_r", "©2018 YUITI", 12);
+            this.credit.tint = 0x000000;
+            this.credit.alpha = 0;
+            this.credit.anchor.setTo(0.5, 0.5);
+            this.credit.x = this.world.centerX;
+            this.credit.y = 72;
+            this.game.add.tween(this.credit).to({
+                y: 60,
+                alpha: 1
+            }, 500, Phaser.Easing.Quintic.Out, true, 700, 0, false);
+            this.press = this.game.add.bitmapText(0, 0, "envy_code_r", "PRESS ENTER", 12);
+            this.press.tint = 0xcccccc;
+            this.press.alpha = 0;
+            this.press.anchor.setTo(0.5, 0.5);
+            this.press.x = this.world.centerX;
+            this.press.y = 49;
+            this.game.add.tween(this.press).to({
+                alpha: .5
+            }, 300, Phaser.Easing.Quintic.Out, true, 1000, 0, false).onComplete.add(function () {
+                this.finish = true;
+                this.status = 0;
+            }, this);
+        };
+        Title.prototype.statusDefault = function () {
+            if (this.finish === true) {
+                this.press.alpha = 1 * Math.abs(Math.sin(this.game.time.now / 512));
             }
             if (this.controller.controls.start.pressed) {
-                var current_1 = this.dial;
-                this.soundGroup.door_01.play();
-                this.count = 0;
-                this.dial = this.nextDial;
-                this.objectGroups.current.add(this.dial);
-                this.game.add.tween(this.dial.scale).to({
-                    x: 1,
-                    y: 1
-                }, 500, Phaser.Easing.Linear.None, true, 200, 0, false);
-                this.nextDial = new LD42.Dial(this.game, this.game.world.centerX, this.game.world.centerY);
-                this.objectGroups.next.add(this.nextDial);
-                this.nextDial.scale.set(0.5, 0.5);
-                current_1.bringToTop();
-                current_1.speed = 0;
-                current_1.direction = 0;
-                var tween = this.game.add.tween(current_1).to({
-                    x: current_1.x + 3,
-                    y: 128
-                }, 1000, Phaser.Easing.Back.InOut, true, 0, 0);
-                this.game.add.tween(current_1.scale).to({
-                    x: 2,
-                    y: 2
-                }, 500, Phaser.Easing.Linear.None, true, 0, 0, false);
-                tween.onComplete.add(function () {
-                    current_1.destroy();
+                this.status = 1;
+                this.sounds.start.play();
+                this.game.add.tween(this.title).to({
+                    alpha: 0
+                }, 300, Phaser.Easing.Linear.None, true, 100);
+                this.game.add.tween(this.title).to({
+                    y: -16
+                }, 300, Phaser.Easing.Back.In, true).onComplete.add(function () {
+                    this.status = 2;
                 }, this);
+                this.game.add.tween(this.credit).to({
+                    alpha: 0
+                }, 300, Phaser.Easing.Linear.None, true, 100);
+                this.game.add.tween(this.credit).to({
+                    y: 70
+                }, 300, Phaser.Easing.Back.In, true);
             }
-            this.count += 0.5;
-            this.uiGroup.dialText.text = Math.abs(this.degrees).toString();
-            this.uiGroup.dialText.x = this.game.world.centerX - this.uiGroup.dialText.width / 2;
-            this.uiGroup.dialText.y = this.game.world.centerY - this.uiGroup.dialText.height / 2;
         };
-        Test.prototype.handleDial = function () {
-            var controls = this.controller.controls;
-            this.dial.direction = controls.right.hold - controls.left.hold;
+        Title.prototype.statusPressed = function () {
+            this.press.alpha = 1 * Math.abs(Math.sin(this.game.time.now / 64));
         };
-        return Test;
+        Title.prototype.statusFade = function () {
+            this.game.add.tween(this.press).to({
+                alpha: 0
+            }, 200, Phaser.Easing.Linear.None, true, 100);
+            this.game.add.tween(this.sounds.intro).to({
+                volume: 0
+            }, 400, Phaser.Easing.Linear.None, true, 0, 0, false).onComplete.add(function () {
+                this.sounds.intro.stop();
+            }, this);
+            this.game.add.tween(this.bg).to({
+                alpha: 0
+            }, 300, Phaser.Easing.Linear.None, true, 100).onComplete.add(function () {
+                this.status = 3;
+            }, this);
+        };
+        Title.prototype.create = function () {
+            this.__boot();
+            this.controller = new Control(this.game);
+            this.sounds = {};
+            this.loadSounds();
+            this.sounds.intro.play();
+            this.game.add.tween(this.sounds.intro).to({
+                volume: 0.5
+            }, 1000, Phaser.Easing.Linear.None, true, 500, 0, false);
+            this.drawTitleScreen();
+        };
+        Title.prototype.update = function () {
+            switch (this.status) {
+                case 1:
+                    this.statusPressed();
+                    break;
+                case 2:
+                    this.statusFade();
+                    break;
+                case 3:
+                    this.state.start("Play");
+                    break;
+                default:
+                    this.statusDefault();
+                    break;
+            }
+        };
+        Title.prototype.shutdown = function () {
+            this.game.world.removeAll(true);
+            this.__boot();
+        };
+        return Title;
     }(Phaser.State));
-    LD42.Test = Test;
+    LD42.Title = Title;
 })(LD42 || (LD42 = {}));
 //# sourceMappingURL=build.js.map

@@ -1,8 +1,9 @@
 namespace Helpers {
   /**
-   * LD42 : Helpers/Functions
+   * UNLOCKR : Helpers/Functions
    * --------------------------------------------------------------------
-   * Provides helper functions for some common operations.
+   * Provides helper functions for common operations, also provides some
+   * pre-defined constants to avoid too much calculations.
    *
    * @author    Fabio Y. Goto <lab@yuiti.com.br>
    * @since     0.0.1
@@ -21,14 +22,13 @@ namespace Helpers {
   /**
    * Shifts one value towards another by step.
    *
-   * Useful for simple acceleration.
-   *
    * @param {number} start
    *    Starting value
    * @param {number} end
    *    Target value
    * @param {number} step
-   *    Step value to shift
+   *    Step to move/shift
+   * @returns {number}
    */
   export function approach(start: number, end: number, step: number): number {
     if (start > end) {

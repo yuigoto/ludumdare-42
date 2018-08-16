@@ -1,5 +1,5 @@
 /**
- * LD42 : Init
+ * UNLOCKR : Init
  * ----------------------------------------------------------------------
  * Executes the game.
  *
@@ -7,6 +7,5 @@
  * @since     0.0.1
  */
 window.onload = () => {
-  // GAME ON!
   const game = new LD42.Game();
 };

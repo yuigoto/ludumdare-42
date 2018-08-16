@@ -1,9 +1,9 @@
 namespace Interfaces {
   /**
-   * LD42 : Interfaces/AssetList
+   * UNLOCKR : Interfaces/AssetList
    * --------------------------------------------------------------------
    * Implements the basic interface for an asset list handler, so we can
-   * easily handle loading and grouping of item types.
+   * easily handle pre-loading and grouping of assets in the loader state.
    *
    * @author    Fabio Y. Goto <lab@yuiti.com.br>
    * @since     0.0.1

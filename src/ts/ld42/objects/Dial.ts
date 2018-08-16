@@ -1,36 +1,73 @@
 namespace LD42 {
-  import approach = Helpers.approach;
   import ItemGroup = Interfaces.ItemGroup;
+  import approach = Helpers.approach;
 
   /**
-   * LD42 : LD42/Objects/Dial
+   * UNLOCKR : LD42/Objects/Dial
    * --------------------------------------------------------------------
-   * The player dial object.
+   * A lock dial object.
    *
    * @author    Fabio Y. Goto <lab@yuiti.com.br>
    * @since     0.0.1
    */
   export class Dial extends Phaser.Sprite {
+    // Properties
+    // ------------------------------------------------------------------
+
     /**
-     * The current direction the player's holding:
+     * If the dial's ready to be discarded.
+     */
+    public discard: boolean = false;
+
+    /**
+     * Group alias.
+     */
+    group: Phaser.Group;
+
+    /**
+     * Current spinning direction:
      * -1: left
      * 1: right
      */
     public direction: number = 0;
 
     /**
-     * How much the dial will turn.
-     *
-     * Is the accessible value from outside.
+     * Current spinning speed.
+     */
+    public speed: number = 0;
+
+    /**
+     * Maximum turning speed.
+     */
+    public speed_max: number = 8;
+
+    /**
+     * Acceleration factor.
+     */
+    public accel: number = 0.25;
+
+    /**
+     * Deceleration factor.
+     */
+    public decel: number = 0.5;
+
+    /**
+     * How much the dial is turning right now.
      */
     public turn: number = 0;
 
-    public speed: number = 0;
-    public speed_max: number = 8;
-    public factor_accel: number = 0.5;
-    public factor_decel: number = 1.0;
-    public sound_time: number = 0;
-    public sound_group: ItemGroup;
+    /**
+     * Collection used to handle sounds.
+     */
+    private sounds: ItemGroup = {};
+
+    /**
+     * Delau to play the next sound.
+     */
+    private sound_time: number = 0;
+
+    // Construtor
+    // ------------------------------------------------------------------
 
     /**
      * Constructor.
@@ -46,177 +83,197 @@ namespace LD42 {
       y: number,
       group: Phaser.Group = null
     ) {
-      super(game, x, y, "spr_lock", 0);
+      super(game, x, y, "spr_dial", 0);
 
-      this.sound_group = {};
-      this.loadSounds();
-
-      // Set anchor at center
+      // Center anchor
       this.anchor.setTo(0.5, 0.5);
+
+      // Is alive
+      this.alive = true;
+
+      // Loads dial sounds
+      this.sounds = {};
+      this.loadSounds();
 
       // Add object to game
       game.add.existing(this);
-    }
 
-    // Lifecycle methods
-    // ------------------------------------------------------------------
+      // Add to group, if exists
+      if (group) group.add(this);
 
-    /**
-     * Updates state on every frame.
-     */
-    update() {
-      this.handleTurn();
+      // Set group alias
+      this.group = group;
     }
 
     // Methods
     // ------------------------------------------------------------------
 
     /**
-     * Sets the dial's sounds.
+     * Kills itself.
+     *
+     * @param {Function} callback
+     */
+    killDial() {
+      if (this.alive) {
+        this.alive = false;
+
+        // Random sign to move
+        let sign_x = (Math.random() < .5) ? -1 : 1,
+            sign_a = (Math.random() < .5) ? -1 : 1;
+
+        // Fall tween
+        this.game.add.tween(this).to(
+          {
+            y: this.y + 96
+          },
+          500,
+          Phaser.Easing.Back.In,
+          true,
+          0,
+          0
+        );
+
+        // X and rotation tween
+        this.game.add.tween(this).to(
+          {
+            x: this.x + Math.round(Math.random() * 32) * sign_x,
+            angle: this.angle + (40 * sign_a)
+          },
+          500,
+          Phaser.Easing.Linear.None,
+          true,
+          0,
+          0
+        ).onComplete.add(function() {
+          this.discard = true;
+          this.group.remove(this);
+          this.destroy();
+        }, this);
+
+        // Alpha tween
+        this.game.add.tween(this).to(
+          {
+            alpha: 0
+          },
+          200,
+          Phaser.Easing.Linear.None,
+          true,
+          200,
+          0
+        );
+
+        // Scale tween
+        this.game.add.tween(this.scale).to(
+          {
+            x: 1.5,
+            y: 1.5
+          },
+          500,
+          Phaser.Easing.Linear.None,
+          true,
+          0,
+          0,
+          false
+        );
+      }
+    }
+
+    /**
+     * Loads the dial's sounds from the cache.
      */
     loadSounds() {
-      this.sound_group.dial_01 = this.game.add.sound(
-        "snd_dial_01",
-        .3,
-        false
-      );
-      this.sound_group.dial_02 = this.game.add.sound(
-        "snd_dial_02",
-        .3,
-        false
-      );
-      this.sound_group.dial_03 = this.game.add.sound(
-        "snd_dial_03",
-        .3,
-        false
-      );
-      this.sound_group.dial_04 = this.game.add.sound(
-        "snd_dial_04",
-        .3,
-        false
-      );
-      this.sound_group.dial_05 = this.game.add.sound(
-        "snd_dial_05",
-        .3,
-        false
-      );
-      this.sound_group.dial_06 = this.game.add.sound(
-        "snd_dial_06",
-        .3,
-        false
-      );
-      this.sound_group.dial_07 = this.game.add.sound(
-        "snd_dial_07",
-        .3,
-        false
-      );
-      this.sound_group.dial_08 = this.game.add.sound(
-        "snd_dial_08",
-        .3,
-        false
-      );
-      this.sound_group.dial_09 = this.game.add.sound(
-        "snd_dial_09",
-        .3,
-        false
-      );
-      this.sound_group.dial_10 = this.game.add.sound(
-        "snd_dial_10",
-        .3,
-        false
-      );
-      this.sound_group.dial_11 = this.game.add.sound(
-        "snd_dial_11",
-        .3,
-        false
-      );
-      this.sound_group.dial_12 = this.game.add.sound(
-        "snd_dial_12",
-        .3,
-        false
-      );
-    }
+      for (let i = 1; i <= 12; i++) {
+        let n = i.toString();
+        if (n.length < 2) n = "0" + n;
 
-    /**
-     * Plays the dial sound.
-     */
-    playSound() {
-      switch (Math.floor(Math.random() * 12)) {
-        case 2:
-          this.sound_group.dial_02.play();
-          break;
-        case 3:
-          this.sound_group.dial_03.play();
-          break;
-        case 4:
-          this.sound_group.dial_04.play();
-          break;
-        case 5:
-          this.sound_group.dial_05.play();
-          break;
-        case 6:
-          this.sound_group.dial_06.play();
-          break;
-        case 7:
-          this.sound_group.dial_07.play();
-          break;
-        case 8:
-          this.sound_group.dial_08.play();
-          break;
-        case 9:
-          this.sound_group.dial_09.play();
-          break;
-        case 10:
-          this.sound_group.dial_10.play();
-          break;
-        case 11:
-          this.sound_group.dial_11.play();
-          break;
-        case 12:
-          this.sound_group.dial_12.play();
-          break;
-        default:
-          this.sound_group.dial_01.play();
-          break;
+        // Load the current sound
+        this.sounds[`dial_${n}`] = this.game.add.sound(
+          `snd_dial_${n}`,
+          0.3,
+          false
+        );
       }
     }
 
     /**
-     * Handles the dial's turn, based on the direction the player's holding.
+     * Plays one of the dial's sounds randomly.
      */
-    handleTurn() {
-      if (this.direction != 0) {
-        this.speed = approach(
-          this.speed,
-          this.speed_max * this.direction,
-          this.factor_accel
-        );
-      } else {
-        this.speed = approach(
-          this.speed,
-          0,
-          this.factor_decel
-        );
-      }
+    playSounds() {
+      let n = (1 + Math.floor(Math.random() * 11)).toString();
+      if (n.length < 2) n = "0" + n;
+      this.sounds[`dial_${n}`].play();
+    }
 
-      this.turn = Math.floor(this.speed);
-      this.angle += this.turn;
-
-      // Plays the dial sound
+    /**
+     * Plays a dial sound accordingly.
+     */
+    playDialSound() {
       if (this.turn != 0) {
         if (this.sound_time == 0) {
-          this.playSound();
+          // Plays one of the sounds
+          this.playSounds();
+
+          // Set the next delay
           this.sound_time = Math.round(
-            8 * (
-              1.5 - (Math.abs(this.turn) / this.speed_max)
-            )
+            this.speed_max * (1.5 - (Math.abs(this.turn) / this.speed_max))
           );
         } else {
+          // Decrease delay
           this.sound_time -= 1;
         }
       } else {
         this.sound_time = 0;
       }
+    }
+
+    /**
+     * Handles the dial's turn.
+     */
+    turnDial() {
+      if (this.alive && Math.abs(this.direction)) {
+        // Checks if direction and speed are different
+        if (Math.sign(this.speed) !== Math.sign(this.direction)) {
+          this.speed = approach(
+            this.speed,
+            0,
+            this.decel
+          );
+        }
+
+        this.speed = approach(
+          this.speed,
+          this.speed_max * this.direction,
+          this.accel
+        );
+      } else {
+        this.speed = approach(
+          this.speed,
+          0,
+          this.decel
+        );
+      }
+
+      // If alive
+      if (this.alive) {
+        // Define turning value
+        this.turn = Math.floor(this.speed);
+
+        // Set angle
+        this.angle += this.turn;
+
+        // Play the dial sound
+        this.playDialSound();
+      }
+    }
+
+    // Lifecycle Methods
+    // ------------------------------------------------------------------
+
+    /**
+     * Updates the state.
+     */
+    update() {
+      this.turnDial();
     }
   }
 }

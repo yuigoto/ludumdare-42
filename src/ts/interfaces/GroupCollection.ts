@@ -1,9 +1,9 @@
 namespace Interfaces {
   /**
-   * LD24 : Interfaces/GroupCollection
+   * UNLOCKR : Interfaces/GroupCollection
    * --------------------------------------------------------------------
-   * Implements a generic interface used to define `Phaser.Group` collections,
-   * so we can easily handle multiple groups.
+   * Implements a basic interface used to build collections of `Phaser.Group`
+   * elements, so we can easily handle grouping and layering.
    *
    * Works in a similar way to `ItemGroup`.
    *

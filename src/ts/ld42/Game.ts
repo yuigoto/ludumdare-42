@@ -1,6 +1,6 @@
 namespace LD42 {
   /**
-   * LD42 : LD42/Game
+   * UNLOCKR : LD42/Game
    * --------------------------------------------------------------------
    * Main game class.
    *
@@ -8,33 +8,29 @@ namespace LD42 {
    * @since     0.0.1
    */
   export class Game extends Phaser.Game {
-    /**
-     * Constructor.
-     */
     constructor() {
-      super(64, 64, Phaser.CANVAS, "ld42-game", null, true, false);
+      super(64, 64, Phaser.AUTO, "ld42-game", null, true, false);
 
-      // Game title
-      document.title  = "UNLOCKR : v0.0.1 : by YUITI";
+      // Set game title
+      document.title = `${GameInfo.title} : ${GameInfo.version} : by ${GameInfo.author_display}`;
 
       // Set HTML info
       let name        = document.getElementById("ld42-name"),
           description = document.getElementById("ld42-description"),
           controls    = document.getElementById("ld42-controls"),
           copy        = document.getElementById("ld42-copy");
-      name.innerHTML        = "UNLOCKR <small>v0.0.1</small>";
-      description.innerHTML = "A simple, minimalistic game about unlocking and escaping an infinite corridor";
-      controls.innerHTML    = "Left and Right to play, Enter to start";
-      copy.innerHTML        = "©2018 YUITI";
+      name.innerHTML        = `${GameInfo.title} <small>v${GameInfo.version}</small>`;
+      description.innerHTML = GameInfo.description;
+      controls.innerHTML    = GameInfo.controls;
+      copy.innerHTML        = GameInfo.copyright;
 
-      // Set state
+      // Define states
       this.state.add("Boot", Boot, false);
       this.state.add("Preload", Preload, false);
-      this.state.add("Test", Test, false);
-      this.state.add("Main", Main, false);
-      this.state.add("PlayTest", PlayTest, false);
+      this.state.add("Title", Title, false);
+      this.state.add("Play", Play, false);
 
-      // Fires game
+      // Start the game
       this.state.start("Boot");
     }
   }

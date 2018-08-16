@@ -1,6 +1,6 @@
 namespace Controls {
   /**
-   * LD42 : Controls/ControlState
+   * UNLOCKR : Controls/ControlState
    * --------------------------------------------------------------------
    * Implements the basic properties of a single control state.
    *
@@ -8,15 +8,35 @@ namespace Controls {
    * @since     0.0.1
    */
   export interface ControlState {
-    // If the control is being held down (1) or not (0)
+    /**
+     * If the control is being held down (1) or not (0).
+     */
     hold: number;
-    // "Just pressed" state
+
+    /**
+     * The control's "just pressed" state.
+     */
     pressed: boolean;
-    // "Just released" state
+
+    /**
+     * The control's "just released" state.
+     */
     release: boolean;
-    // Previous "hold" state
+
+    /**
+     * Previous "hold" state.
+     */
     previous: number;
-    // Keyboard key (or joypad button) value
+
+    /**
+     * Keyboard key, joypad button or other input ID.
+     */
     key: number;
+
+    /**
+     * A float value, from 0 to 1, for using with "analog" or variable
+     * controls. Usually set at 0.
+     */
+    value: number;
   }
 }
