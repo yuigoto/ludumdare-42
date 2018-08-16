@@ -898,7 +898,7 @@ var LD42;
         PlayTest.prototype.handleLevelChange = function () {
             this.gameState = "wait";
             this.unlocked += 1;
-            if (this.unlocked === 10) {
+            if (this.unlocked % 10 === 0) {
                 this.timerCurr = approach(this.timerCurr, this.timerMaxTime, 6);
                 this.g_soundGroup.bell.play();
             }
@@ -1041,7 +1041,7 @@ var LD42;
                     next.y = this.game.world.centerY + 32;
                     next.anchor.setTo(0.5, 0.5);
                     next.alpha = 0;
-                    next.tint = 0x999999;
+                    next.tint = 0xff0000;
                     this.game.add.tween(next).to({
                         y: this.game.world.centerY + 8,
                         alpha: 0.25
@@ -1079,7 +1079,7 @@ var LD42;
             currLabel.y = this.game.world.centerY + 16;
             currLabel.anchor.set(0.5, 0.5);
             currLabel.alpha = 0;
-            currLabel.tint = 0x999999;
+            currLabel.tint = 0xff0000;
             this.game.add.tween(currLabel).to({
                 y: this.game.world.centerY,
                 alpha: 1
@@ -1094,7 +1094,7 @@ var LD42;
             nextLabel.y = this.game.world.centerY + 32;
             nextLabel.anchor.set(0.5, 0.5);
             nextLabel.alpha = 0;
-            nextLabel.tint = 0x999999;
+            nextLabel.tint = 0xff0000;
             this.game.add.tween(nextLabel).to({
                 y: this.game.world.centerY + 8,
                 alpha: 0.25
