@@ -89,15 +89,6 @@ namespace LD42 {
      */
     unlocked: number;
 
-    /**
-     * Test values.
-     */
-    test_a: any;
-    test_b: any;
-    test_c: any;
-    test_d: any;
-    test_timer: number = 0;
-
     // Methods
     // ------------------------------------------------------------------
 
@@ -154,6 +145,7 @@ namespace LD42 {
         nextDoorL: null,
         nextDoorR: null,
         wallText: null,
+        escapeText: null,
         wallShadow: null
       };
 
@@ -180,28 +172,18 @@ namespace LD42 {
       );
       this.sprites.bg.animations.add("move", null, 30, true);
       this.sprites.bg.animations.play("move");
+      this.sprites.bg.alpha = 0;
       this.groups.bg.add(this.sprites.bg);
-
-      // Populate the level with the current doors and dial
-      this.sprites.doorL = new Door(
-        this.game,
-        this.world.centerX,
-        this.world.centerY,
-        false,
-        this.groups.current
-      );
-      this.sprites.doorR = new Door(
-        this.game,
-        this.world.centerX,
-        this.world.centerY,
+      this.game.add.tween(this.sprites.bg).to(
+        {
+          alpha: 1
+        },
+        1000,
+        Phaser.Easing.Linear.None,
         true,
-        this.groups.current
-      );
-      this.sprites.dial = new Dial(
-        this.game,
-        this.world.centerX,
-        this.world.centerY,
-        this.groups.current
+        0,
+        0,
+        false
       );
 
       // Add the starter screen
@@ -252,6 +234,72 @@ namespace LD42 {
 
         // Play the voice
         this.playWallVoice();
+
+        // Populate the level with the current doors and dial
+        this.sprites.doorL = new Door(
+          this.game,
+          this.world.centerX,
+          this.world.centerY,
+          false,
+          this.groups.current
+        );
+
+        this.sprites.doorR = new Door(
+          this.game,
+          this.world.centerX,
+          this.world.centerY,
+          true,
+          this.groups.current
+        );
+
+        this.sprites.dial = new Dial(
+          this.game,
+          this.world.centerX,
+          this.world.centerY,
+          this.groups.current
+        );
+
+        this.sprites.doorL.scale.setTo(0, 0);
+        this.game.add.tween(this.sprites.doorL.scale).to(
+          {
+            x: 1,
+            y: 1
+          },
+          2000,
+          Phaser.Easing.Linear.None,
+          true,
+          0,
+          0,
+          false
+        );
+
+        this.sprites.doorR.scale.setTo(0, 0);
+        this.game.add.tween(this.sprites.doorR.scale).to(
+          {
+            x: 1,
+            y: 1
+          },
+          2000,
+          Phaser.Easing.Linear.None,
+          true,
+          0,
+          0,
+          false
+        );
+
+        this.sprites.dial.scale.setTo(0, 0);
+        this.game.add.tween(this.sprites.dial.scale).to(
+          {
+            x: 1,
+            y: 1
+          },
+          2000,
+          Phaser.Easing.Linear.None,
+          true,
+          0,
+          0,
+          false
+        );
       }
 
       // Set new event, if lower than 5
@@ -264,6 +312,56 @@ namespace LD42 {
       } else {
         // Start the game
         this.status = 1;
+
+        // Play escape sound
+        this.playEscapeVoice();
+
+        /*
+        // Escape text
+        this.ui.escapeText = this.game.add.sprite(
+          0,
+          0,
+          "ui_escape",
+          0
+        );
+        this.ui.escapeText.anchor.setTo(0.5, 0.5);
+        this.ui.escapeText.x = this.world.centerX;
+        this.ui.escapeText.y = this.world.centerY + 16;
+        this.ui.escapeText.alpha = 0;
+        this.groups.ui.add(this.ui.escapeText);
+
+        // Tween In
+        this.game.add.tween(this.ui.escapeText).to(
+          {
+            y: this.world.centerY,
+            alpha: 1
+          },
+          500,
+          Phaser.Easing.Circular.Out,
+          true,
+          0,
+          0,
+          false
+        ).onComplete.add(function() {
+          // Tween out
+          this.game.add.tween(this.ui.escapeText).to(
+            {
+              y: this.world.centerY - 16,
+              alpha: 0
+            },
+            500,
+            Phaser.Easing.Circular.In,
+            true,
+            500,
+            0,
+            false
+          ).onComplete.add(function() {
+            // Destroy
+            this.groups.ui.remove(this.ui.escapeText);
+            this.ui.escapeText.destroy();
+          }, this);
+        }, this);
+        //*/
 
         // Erase sprite
         this.sprites.wallText.alpha = 0;
@@ -308,6 +406,15 @@ namespace LD42 {
         );
       }
 
+      // Escape voice sounds
+      for (let i = 1; i <= 4; i++) {
+        this.sounds[`escape_0${i}`] = this.game.add.sound(
+          `vox_escape_0${i}`,
+          0.75,
+          false
+        );
+      }
+
       // Bell sound
       this.sounds.bell = this.game.add.sound(
         "snd_bell_01",
@@ -318,7 +425,7 @@ namespace LD42 {
       // Music
       this.sounds.song = this.game.add.sound(
         "ld42_song",
-        0.3,
+        0.5,
         true
       );
 
@@ -539,9 +646,7 @@ namespace LD42 {
           0,
           0,
           false
-        ).onComplete.add(function() {
-          this.gameState = "run";
-        }, this);
+        );
         this.ui.label_1 = curr;
 
         // Checks if it's the last one
@@ -591,6 +696,11 @@ namespace LD42 {
 
       // Destroy labels
       this.destroyLabels();
+
+      // Handles points
+      if (this.unlocked % 10 === 0) {
+      } else {
+      }
 
       // Kills current door set
       tempDoorL = this.sprites.doorL;
@@ -706,6 +816,14 @@ namespace LD42 {
     }
 
     /**
+     * Plays one of the escape voice sounds.
+     */
+    playEscapeVoice() {
+      let curr = (1 + Math.floor(Math.random() * 3)).toString();
+      this.sounds[`escape_0${curr}`].play();
+    }
+
+    /**
      * Just an updater for the initial screen.
      */
     statusInit() {
@@ -714,6 +832,9 @@ namespace LD42 {
       if (this.init_alpha == 60) this.init_alpha = 0;
     }
 
+    /**
+     * Handles the gameplay state.
+     */
     statusPlay() {
       let { controls } = this.controller;
       let turn = controls.right.hold - controls.left.hold;

@@ -36,6 +36,12 @@ namespace LD42 {
       ignore: false
     },
     {
+      name: "ui_escape",
+      file: "assets/img/ui/ui_escape.png",
+      overwrite: false,
+      ignore: true
+    },
+    {
       name: "ui_title",
       file: "assets/img/ui/ui_title.png",
       overwrite: false,

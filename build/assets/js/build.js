@@ -1083,6 +1083,508 @@ var LD42;
 })(LD42 || (LD42 = {}));
 var LD42;
 (function (LD42) {
+    var Control = Controls.Control;
+    var approach = Helpers.approach;
+    var PlayTest = (function (_super) {
+        __extends(PlayTest, _super);
+        function PlayTest() {
+            var _this = _super !== null && _super.apply(this, arguments) || this;
+            _this.init_count = 0;
+            _this.init_time = 0;
+            _this.gameState = "begin";
+            _this.unlocked = 0;
+            _this.currLock = 0;
+            _this.lockValues = [];
+            _this.timerCurr = 60;
+            _this.timerMaxTime = 60;
+            return _this;
+        }
+        PlayTest.prototype.shutdown = function () {
+            this.init_time = 0;
+            this.init_count = 0;
+            this.controller = null;
+            this.g_spriteGroup = null;
+            this.g_soundGroup = null;
+            this.g_uiGroup = null;
+            this.objectGroups = null;
+            this.gameState = "begin";
+            this.unlocked = 0;
+            this.currLock = 0;
+            this.lockValues = [];
+            this.timer = null;
+            this.timerCurr = 60;
+            this.timerMaxTime = 60;
+            this.game.world.removeAll(true);
+        };
+        PlayTest.prototype.create = function () {
+            this.g_spriteGroup = {
+                bg: null,
+                dial: null,
+                doorL: null,
+                doorR: null,
+                nextDial: null,
+                nextDoorL: null,
+                nextDoorR: null,
+                wallOver: null,
+                wallText: null
+            };
+            this.g_uiGroup = {
+                currLabel: null,
+                prevLabel: null,
+                nextLabel: null,
+                overLabel: null,
+                scoreLabel: null
+            };
+            this.g_soundGroup = {};
+            this.loadSounds();
+            this.controller = new Control(this.game, "controller_p1");
+            this.objectGroups = {
+                background: this.game.add.group(),
+                next: this.game.add.group(),
+                current: this.game.add.group(),
+                previous: this.game.add.group(),
+                ui: this.game.add.group(),
+                overlay: this.game.add.group()
+            };
+            this.g_spriteGroup.bg = this.game.add.tileSprite(0, 0, 64, 64, "bg_main");
+            this.objectGroups.background.add(this.g_spriteGroup.bg);
+            this.g_spriteGroup.doorL = new LD42.Door(this.game, 0, 0);
+            this.g_spriteGroup.doorL.x = this.world.centerX;
+            this.g_spriteGroup.doorL.y = this.world.centerY;
+            this.objectGroups.current.add(this.g_spriteGroup.doorL);
+            this.g_spriteGroup.doorR = new LD42.Door(this.game, 0, 0, true);
+            this.g_spriteGroup.doorR.x = this.world.centerX;
+            this.g_spriteGroup.doorR.y = this.world.centerY;
+            this.objectGroups.current.add(this.g_spriteGroup.doorR);
+            this.g_spriteGroup.dial = new LD42.Dial(this.game, 0, 0);
+            this.g_spriteGroup.dial.x = this.world.centerX;
+            this.g_spriteGroup.dial.y = this.world.centerY;
+            this.objectGroups.current.add(this.g_spriteGroup.dial);
+            this.g_spriteGroup.wallOver = this.game.add.tileSprite(0, 64, 64, 64, "ui_wall_over");
+            this.objectGroups.ui.add(this.g_spriteGroup.wallOver);
+            this.objectGroups.ui.bringToTop(this.g_spriteGroup.wallOver);
+            this.g_spriteGroup.wallOver.alpha = 0;
+            this.g_spriteGroup.wallText = this.game.add.tileSprite(0, 0, 64, 64, "ui_wall");
+            this.objectGroups.overlay.add(this.g_spriteGroup.wallText);
+        };
+        PlayTest.prototype.update = function () {
+            switch (this.gameState) {
+                case "begin":
+                    this.handleStart();
+                    break;
+                case "change":
+                    this.handleLevelChange();
+                    this.gameState = "wait";
+                    break;
+                case "wait":
+                    console.log("WAIT");
+                    break;
+                case "over":
+                    this.handleOver();
+                    break;
+                case "end":
+                    if (this.controller.controls.start.pressed) {
+                        this.g_soundGroup.song.stop();
+                        this.state.start("Main");
+                    }
+                    break;
+                case "unlock":
+                default:
+                    this.handleGamePlay();
+                    break;
+            }
+        };
+        PlayTest.prototype.handleOver = function () {
+            this.gameState = "end";
+            var _a = this.g_uiGroup, prevLabel = _a.prevLabel, currLabel = _a.currLabel, nextLabel = _a.nextLabel;
+            this.g_soundGroup.song.volume = 0.1;
+            if (prevLabel) {
+                this.game.add.tween(prevLabel).to({
+                    y: -16,
+                    alpha: 0
+                }, 300, Phaser.Easing.Linear.None, true);
+            }
+            if (currLabel) {
+                this.game.add.tween(currLabel).to({
+                    y: -16,
+                    alpha: 0
+                }, 300, Phaser.Easing.Linear.None, true);
+            }
+            if (nextLabel) {
+                this.game.add.tween(nextLabel).to({
+                    y: -16,
+                    alpha: 0
+                }, 300, Phaser.Easing.Linear.None, true);
+            }
+            var overText = this.game.add.bitmapText(0, 0, "yx_ui", "GAME OVER", 10);
+            overText.anchor.setTo(0.5, 0.5);
+            overText.tint = 0xffffff;
+            overText.x = this.game.world.centerX;
+            overText.y = this.game.world.centerY + 16;
+            overText.alpha = 0;
+            this.game.add.tween(overText).to({
+                y: this.game.world.centerY - 16,
+                alpha: 1
+            }, 500, Phaser.Easing.Quintic.Out, true, 100, 0, false);
+            this.g_uiGroup.overLabel = overText;
+            var scoreText = this.game.add.bitmapText(0, 0, "yx_ui", this.unlocked.toString(), 20);
+            scoreText.anchor.setTo(0.5, 0.5);
+            scoreText.tint = 0xffffff;
+            scoreText.x = this.game.world.centerX;
+            scoreText.y = this.game.world.centerY + 16;
+            scoreText.alpha = 0;
+            this.game.add.tween(scoreText).to({
+                y: this.game.world.centerY - 4,
+                alpha: 1
+            }, 500, Phaser.Easing.Quintic.Out, true, 100, 0, false);
+            this.g_uiGroup.scoreLabel = scoreText;
+        };
+        PlayTest.prototype.handleStart = function () {
+            if (this.init_time >= 18) {
+                this.initVals();
+                this.g_soundGroup.song.play();
+                this.timer = this.game.time.now;
+                this.game.add.tween(this.g_spriteGroup.wallText).to({
+                    alpha: 0
+                }, 100, Phaser.Easing.Linear.None, true, 0, 0, false).onComplete.add(function () {
+                }, this);
+                this.gameState = "run";
+            }
+            else {
+                if (this.init_time == 0 && this.init_count == 0) {
+                    this.playWallSound();
+                }
+                this.init_count += 0.1;
+                this.g_spriteGroup.wallText.alpha = Math.abs(Math.sin(this.init_count));
+                if (this.g_spriteGroup.wallText.alpha > 0.95
+                    && Math.sign(Math.sin(this.init_count)) > 0) {
+                    this.g_spriteGroup.wallText.alpha = 1;
+                    this.init_time += 1;
+                    if (this.g_soundGroup.bell.isPlaying) {
+                        this.g_soundGroup.bell.stop();
+                    }
+                    this.g_soundGroup.bell.play();
+                    console.log(this.init_time);
+                }
+            }
+        };
+        PlayTest.prototype.handleGamePlay = function () {
+            var controls = this.controller.controls;
+            var dial = this.g_spriteGroup.dial;
+            dial.direction = controls.right.hold - controls.left.hold;
+            if (dial.turn) {
+                var tempVals = this.lockValues[this.currLock], tempTurn = dial.turn, tempSign = Math.sign(tempVals), tempText = void 0, tempMove = void 0;
+                console.log(tempVals + " : " + tempTurn);
+                if (Math.sign(tempVals) === Math.sign(tempTurn)) {
+                    tempMove = approach(Math.abs(tempVals), 0, Math.abs(tempTurn));
+                }
+                else {
+                    tempMove = Math.abs(tempVals) + Math.abs(tempTurn);
+                }
+                this.lockValues[this.currLock] = tempMove * tempSign;
+                tempText = (tempSign < 0)
+                    ? "L" + tempMove.toString()
+                    : "R" + tempMove.toString();
+                if (this.g_uiGroup.currLabel) {
+                    this.g_uiGroup.currLabel.text = tempText;
+                }
+                if (tempMove == 0) {
+                    dial.direction = 0;
+                    this.handleLabelChange();
+                }
+            }
+            if ((this.game.time.now - this.timer) / 1000 > 1) {
+                this.timer = this.game.time.now;
+                this.timerCurr -= 1;
+                if (this.timerCurr === 0) {
+                    dial.direction = 0;
+                    this.gameState = "over";
+                }
+            }
+            var temp = 64 - Math.round((this.timerCurr / this.timerMaxTime) * 64);
+            temp = 64 - temp;
+            if (this.g_spriteGroup.wallOver.y > 0) {
+                this.g_spriteGroup.wallOver.y = temp;
+                this.g_spriteGroup.wallOver.alpha = 1 - (temp / 64);
+            }
+        };
+        PlayTest.prototype.handleLevelChange = function () {
+            this.gameState = "wait";
+            this.unlocked += 1;
+            if (this.unlocked % 10 === 0) {
+                this.timerCurr = approach(this.timerCurr, this.timerMaxTime, 6);
+                this.g_soundGroup.bell.play();
+            }
+            else {
+                this.timerCurr = approach(this.timerCurr, this.timerMaxTime, 3);
+            }
+            var game = this.game;
+            var _a = this.g_spriteGroup, dial = _a.dial, doorL = _a.doorL, doorR = _a.doorR, wallOver = _a.wallOver;
+            var _b = this.objectGroups, previous = _b.previous, current = _b.current;
+            var tempDial = dial, tempDoorL = doorL, tempDoorR = doorR;
+            this.g_spriteGroup.doorL = new LD42.Door(this.game, 0, 0);
+            this.g_spriteGroup.doorL.x = this.world.centerX;
+            this.g_spriteGroup.doorL.y = this.world.centerY;
+            this.g_spriteGroup.doorL.scale.setTo(0.5, 0.5);
+            this.g_spriteGroup.doorR = new LD42.Door(this.game, 0, 0, true);
+            this.g_spriteGroup.doorR.x = this.world.centerX;
+            this.g_spriteGroup.doorR.y = this.world.centerY;
+            this.g_spriteGroup.doorR.scale.setTo(0.5, 0.5);
+            this.g_spriteGroup.dial = new LD42.Dial(this.game, 0, 0);
+            this.g_spriteGroup.dial.x = this.world.centerX;
+            this.g_spriteGroup.dial.y = this.world.centerY;
+            this.g_spriteGroup.dial.scale.setTo(0.5, 0.5);
+            current.add(this.g_spriteGroup.doorL);
+            current.add(this.g_spriteGroup.doorR);
+            current.add(this.g_spriteGroup.dial);
+            current.remove(tempDial);
+            current.remove(tempDoorL);
+            current.remove(tempDoorR);
+            previous.add(tempDoorL);
+            previous.add(tempDoorR);
+            previous.add(tempDial);
+            tempDial.bringToTop();
+            var sign = (Math.random() < .5) ? -1 : 1;
+            game.add.tween(tempDial).to({
+                y: tempDial.y + 96
+            }, 500, Phaser.Easing.Back.In, true, 0, 0);
+            game.add.tween(tempDial).to({
+                x: tempDial.x + Math.round(Math.random() * 32) * sign,
+                angle: tempDial.angle + 40
+            }, 500, Phaser.Easing.Linear.None, true, 0, 0);
+            game.add.tween(tempDial).to({
+                alpha: 0
+            }, 200, Phaser.Easing.Linear.None, true, 200, 0);
+            game.add.tween(tempDial.scale).to({
+                x: 2,
+                y: 2
+            }, 500, Phaser.Easing.Linear.None, true, 0, 0, false);
+            game.add.tween(tempDoorL).to({
+                x: tempDoorL.x - tempDoorL.width
+            }, 1000, Phaser.Easing.Exponential.Out, true, 200, 0, false);
+            game.add.tween(tempDoorL).to({
+                alpha: 0
+            }, 1000, Phaser.Easing.Linear.None, true, 300, 0, false);
+            game.add.tween(tempDoorL.scale).to({
+                x: 2,
+                y: 2
+            }, 1000, Phaser.Easing.Exponential.Out, true, 300, 0, false);
+            game.add.tween(tempDoorR).to({
+                x: tempDoorR.x + tempDoorR.width
+            }, 1000, Phaser.Easing.Exponential.Out, true, 200, 0, false);
+            game.add.tween(tempDoorR).to({
+                alpha: 0
+            }, 1000, Phaser.Easing.Linear.None, true, 300, 0, false);
+            game.add.tween(tempDoorR.scale).to({
+                x: 2,
+                y: 2
+            }, 1000, Phaser.Easing.Exponential.Out, true, 300, 0, false);
+            game.add.tween(wallOver).to({
+                y: Math.round((this.timerCurr / this.timerMaxTime) * 64),
+                alpha: 1 - (this.timerCurr / this.timerMaxTime)
+            }, 500 * ((64 - wallOver.y) / 64), Phaser.Easing.Linear.None, true, 300, 0);
+            game.add.tween(this.g_spriteGroup.doorL.scale).to({
+                x: 1,
+                y: 1
+            }, 1000, Phaser.Easing.Quadratic.Out, true, 1000, 0, false);
+            game.add.tween(this.g_spriteGroup.doorR.scale).to({
+                x: 1,
+                y: 1
+            }, 1000, Phaser.Easing.Quadratic.Out, true, 1000, 0, false);
+            var dialMove = game.add.tween(this.g_spriteGroup.dial.scale).to({
+                x: 1,
+                y: 1
+            }, 1000, Phaser.Easing.Quadratic.Out, true, 1000, 0, false);
+            dialMove.onComplete.add(function () {
+                this.gameState = "run";
+                this.lockValues = [];
+                this.initVals();
+            }, this);
+            this.playDoorSound();
+        };
+        PlayTest.prototype.handleLabelChange = function () {
+            var curr, next, prev, discard;
+            this.playLockSound();
+            discard = this.g_uiGroup.prevLabel;
+            this.game.add.tween(discard).to({
+                y: this.game.world.centerY - 16,
+                alpha: 0
+            }, 500, Phaser.Easing.Quintic.Out, true, 100, 0, false).onComplete.add(function () {
+                discard.destroy();
+            }, this);
+            if (this.currLock == this.lockValues.length - 1) {
+                this.gameState = "change";
+                var currDiscard_1 = this.g_uiGroup.currLabel;
+                currDiscard_1.text = "OK!";
+                this.game.add.tween(currDiscard_1).to({
+                    y: this.game.world.centerY - 8,
+                    alpha: 0
+                }, 500, Phaser.Easing.Quintic.Out, true, 100, 0, false).onComplete.add(function () {
+                    currDiscard_1.destroy();
+                }, this);
+                this.g_uiGroup.prevLabel = null;
+                this.g_uiGroup.currLabel = null;
+                this.handleLevelChange();
+            }
+            else {
+                console.log(this.currLock);
+                this.currLock += 1;
+                console.log(this.currLock);
+                prev = this.g_uiGroup.currLabel;
+                prev.text = "OK!";
+                this.game.add.tween(prev).to({
+                    y: this.game.world.centerY - 8,
+                    alpha: .25
+                }, 500, Phaser.Easing.Quintic.Out, true, 100, 0, false);
+                this.g_uiGroup.prevLabel = prev;
+                curr = this.g_uiGroup.nextLabel;
+                this.game.add.tween(curr).to({
+                    y: this.game.world.centerY,
+                    alpha: 1
+                }, 500, Phaser.Easing.Quintic.Out, true, 100, 0, false).onComplete.add(function () {
+                    this.gameState = "run";
+                }, this);
+                this.g_uiGroup.currLabel = curr;
+                if (this.currLock < this.lockValues.length - 1) {
+                    var nextVal = (this.lockValues[this.currLock + 1] < 0)
+                        ? "L" + Math.abs(this.lockValues[this.currLock + 1]).toString()
+                        : "R" + this.lockValues[this.currLock + 1].toString();
+                    next = this.game.add.bitmapText(0, 0, "yx_ui", nextVal, 10);
+                    next.x = this.game.world.centerX;
+                    next.y = this.game.world.centerY + 32;
+                    next.anchor.setTo(0.5, 0.5);
+                    next.alpha = 0;
+                    next.tint = 0xff0000;
+                    this.game.add.tween(next).to({
+                        y: this.game.world.centerY + 8,
+                        alpha: 0.25
+                    }, 500, Phaser.Easing.Quintic.Out, true, 100, 0, false);
+                    this.g_uiGroup.nextLabel = next;
+                    this.objectGroups.ui.add(this.g_uiGroup.nextLabel);
+                }
+                else {
+                    this.g_uiGroup.nextLabel = null;
+                }
+            }
+        };
+        PlayTest.prototype.generateAngles = function () {
+            var values = [], curr = 0, rand = 0;
+            while (values.length < 5) {
+                rand = Math.round(Math.random() * 360);
+                if (Math.random() < 0.5)
+                    rand *= -1;
+                if (Math.abs(rand) > 16
+                    && Math.abs(curr - rand) > 32) {
+                    values.push(rand);
+                }
+            }
+            this.currLock = 0;
+            this.lockValues = values;
+            console.log("HY");
+        };
+        PlayTest.prototype.initVals = function () {
+            this.generateAngles();
+            var currVal = (this.lockValues[0] < 0)
+                ? "L" + Math.abs(this.lockValues[0]).toString()
+                : "R" + this.lockValues[0].toString();
+            var currLabel = this.game.add.bitmapText(0, 0, "yx_ui", currVal, 10);
+            currLabel.x = this.game.world.centerX;
+            currLabel.y = this.game.world.centerY + 16;
+            currLabel.anchor.set(0.5, 0.5);
+            currLabel.alpha = 0;
+            currLabel.tint = 0xff0000;
+            this.game.add.tween(currLabel).to({
+                y: this.game.world.centerY,
+                alpha: 1
+            }, 500, Phaser.Easing.Quintic.Out, true, 100, 0, false);
+            this.g_uiGroup.currLabel = currLabel;
+            this.objectGroups.ui.add(this.g_uiGroup.currLabel);
+            var nextVal = (this.lockValues[1] < 0)
+                ? "L" + Math.abs(this.lockValues[1]).toString()
+                : "R" + this.lockValues[1].toString();
+            var nextLabel = this.game.add.bitmapText(0, 0, "yx_ui", nextVal, 10);
+            nextLabel.x = this.game.world.centerX;
+            nextLabel.y = this.game.world.centerY + 32;
+            nextLabel.anchor.set(0.5, 0.5);
+            nextLabel.alpha = 0;
+            nextLabel.tint = 0xff0000;
+            this.game.add.tween(nextLabel).to({
+                y: this.game.world.centerY + 8,
+                alpha: 0.25
+            }, 500, Phaser.Easing.Quintic.Out, true, 100, 0, false);
+            this.g_uiGroup.nextLabel = nextLabel;
+            this.objectGroups.ui.add(this.g_uiGroup.nextLabel);
+        };
+        PlayTest.prototype.loadSounds = function () {
+            for (var i = 1; i <= 5; i++) {
+                this.g_soundGroup["door_0" + i] = this.game.add.sound("snd_door_0" + i, 0.3, false);
+            }
+            for (var i = 1; i <= 4; i++) {
+                this.g_soundGroup["lock_0" + i] = this.game.add.sound("snd_lock_0" + i, 0.3, false);
+            }
+            for (var i = 1; i <= 4; i++) {
+                this.g_soundGroup["wall_0" + i] = this.game.add.sound("vox_wall_0" + i, 0.3, false);
+            }
+            this.g_soundGroup.bell = this.game.add.sound("snd_bell_01", 0.3, false);
+            this.g_soundGroup.song = this.game.add.sound("ld42_song", 0.3, true);
+        };
+        PlayTest.prototype.playDoorSound = function () {
+            switch (Math.round(Math.random() * 5)) {
+                case 2:
+                    this.g_soundGroup.door_02.play();
+                    break;
+                case 3:
+                    this.g_soundGroup.door_03.play();
+                    break;
+                case 4:
+                    this.g_soundGroup.door_04.play();
+                    break;
+                case 5:
+                    this.g_soundGroup.door_05.play();
+                    break;
+                default:
+                    this.g_soundGroup.door_01.play();
+                    break;
+            }
+        };
+        PlayTest.prototype.playLockSound = function () {
+            switch (Math.round(Math.random() * 4)) {
+                case 2:
+                    this.g_soundGroup.lock_02.play();
+                    break;
+                case 3:
+                    this.g_soundGroup.lock_03.play();
+                    break;
+                case 4:
+                    this.g_soundGroup.lock_04.play();
+                    break;
+                default:
+                    this.g_soundGroup.lock_01.play();
+                    break;
+            }
+        };
+        PlayTest.prototype.playWallSound = function () {
+            switch (Math.round(Math.random() * 4)) {
+                case 2:
+                    this.g_soundGroup.wall_02.play();
+                    break;
+                case 3:
+                    this.g_soundGroup.wall_03.play();
+                    break;
+                case 4:
+                    this.g_soundGroup.wall_04.play();
+                    break;
+                default:
+                    this.g_soundGroup.wall_01.play();
+                    break;
+            }
+        };
+        return PlayTest;
+    }(Phaser.State));
+    LD42.PlayTest = PlayTest;
+})(LD42 || (LD42 = {}));
+var LD42;
+(function (LD42) {
     var Preload = (function (_super) {
         __extends(Preload, _super);
         function Preload() {

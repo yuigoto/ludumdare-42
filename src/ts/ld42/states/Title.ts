@@ -89,6 +89,23 @@ namespace LD42 {
         0.3,
         false
       );
+
+      for (let i = 1; i <= 3; i++) {
+        this.sounds[`vox_unlockr_0${i}`] = this.game.add.sound(
+          `vox_unlockr_0${i}`,
+          0.3,
+          false
+        );
+      }
+    }
+
+    /**
+     * Plays the title.
+     */
+    playUnlockr() {
+      let num = 1 + Math.floor(Math.random() * 2);
+      console.log(num);
+      this.sounds[`vox_unlockr_0${num}`].play();
     }
 
     /**
@@ -190,6 +207,9 @@ namespace LD42 {
         0,
         false
       ).onComplete.add(function() {
+        // Plays title
+        this.playUnlockr();
+
         // Set finished to true and status to initialized
         this.finish = true;
         this.status = 0;

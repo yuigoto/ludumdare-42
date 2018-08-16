@@ -255,6 +255,33 @@ namespace LD42 {
       ignore: false
     },
     {
+      name: "vox_escape_01",
+      file: [
+        "assets/sound/vox_escape_01.mp3",
+        "assets/sound/vox_escape_01.ogg"
+      ],
+      autoDecode: false,
+      ignore: false
+    },
+    {
+      name: "vox_escape_02",
+      file: [
+        "assets/sound/vox_escape_02.mp3",
+        "assets/sound/vox_escape_02.ogg"
+      ],
+      autoDecode: false,
+      ignore: false
+    },
+    {
+      name: "vox_escape_03",
+      file: [
+        "assets/sound/vox_escape_03.mp3",
+        "assets/sound/vox_escape_03.ogg"
+      ],
+      autoDecode: false,
+      ignore: false
+    },
+    {
       name: "vox_unlockr_01",
       file: [
         "assets/sound/vox_unlockr_01.mp3",
