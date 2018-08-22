@@ -19,11 +19,18 @@ namespace LD42 {
       ignore: false
     },
     {
+      name: "arial",
+      texture: "assets/fonts/arial_0.png",
+      atlas: "assets/fonts/arial.fnt",
+      atlasData: null,
+      ignore: false
+    },
+    {
       name: "consolas",
       texture: "assets/fonts/consolas_0.png",
       atlas: "assets/fonts/consolas.fnt",
       atlasData: null,
-      ignore: false
+      ignore: true
     },
     {
       name: "envy_code_r",
@@ -37,7 +44,7 @@ namespace LD42 {
       texture: "assets/fonts/ubuntumono_0.png",
       atlas: "assets/fonts/ubuntumono.fnt",
       atlasData: null,
-      ignore: false
+      ignore: true
     },
     {
       name: "yx_ui",

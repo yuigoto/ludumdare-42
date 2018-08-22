@@ -89,6 +89,11 @@ namespace LD42 {
      */
     unlocked: number;
 
+    /**
+     * Overall time.
+     */
+    overall_time: number = 0;
+
     // Methods
     // ------------------------------------------------------------------
 
@@ -98,19 +103,21 @@ namespace LD42 {
      * @private
      */
     __boot() {
-      this.controller   = null;
-      this.groups       = null;
-      this.sounds       = null;
-      this.sprites      = null;
-      this.ui           = null;
-
-      this.status       = -1;
-      this.init_count   = 0;
-      this.init_alpha   = 0;
-
-      this.lock         = 0;
-      this.lock_values  = [];
-      this.unlocked     = 0;
+      this.controller       = null;
+      this.groups           = null;
+      this.sounds           = null;
+      this.sprites          = null;
+      this.ui               = null;
+      this.status           = -1;
+      this.init_count       = 0;
+      this.init_alpha       = 0;
+      this.lock             = 0;
+      this.lock_values      = [];
+      this.wall_time        = 0;
+      this.wall_time_count  = 0;
+      this.wall_time_max    = 64;
+      this.unlocked         = 0;
+      this.overall_time     = 0;
     }
 
     /**
@@ -141,9 +148,6 @@ namespace LD42 {
         dial: null,
         doorL: null,
         doorR: null,
-        nextDial: null,
-        nextDoorL: null,
-        nextDoorR: null,
         wallText: null,
         escapeText: null,
         wallShadow: null
@@ -155,7 +159,10 @@ namespace LD42 {
         label_2: null,
         label_3: null,
         label_4: null,
-        label_5: null
+        label_5: null,
+        over_text: null,
+        score_text: null,
+        start_text: null
       };
 
       // Generate labels beforehand
@@ -316,7 +323,6 @@ namespace LD42 {
         // Play escape sound
         this.playEscapeVoice();
 
-        /*
         // Escape text
         this.ui.escapeText = this.game.add.sprite(
           0,
@@ -361,7 +367,6 @@ namespace LD42 {
             this.ui.escapeText.destroy();
           }, this);
         }, this);
-        //*/
 
         // Erase sprite
         this.sprites.wallText.alpha = 0;
@@ -419,6 +424,13 @@ namespace LD42 {
       this.sounds.bell = this.game.add.sound(
         "snd_bell_01",
         0.3,
+        false
+      );
+
+      // Start
+      this.sounds.start = this.game.add.sound(
+        "snd_start_01",
+        0.5,
         false
       );
 
@@ -698,9 +710,44 @@ namespace LD42 {
       this.destroyLabels();
 
       // Handles points
-      if (this.unlocked % 10 === 0) {
+      let new_y;
+      if (this.unlocked > 9 && this.unlocked % 25 === 0) {
+        new_y = approach(
+          this.sprites.wallShadow.y,
+          64,
+          12
+        );
+        this.wall_time = approach(this.wall_time, 0, 4);
+        this.sounds.bell.play();
+      } else if (this.unlocked > 9 && this.unlocked % 10 === 0) {
+        new_y = approach(
+          this.sprites.wallShadow.y,
+          64,
+          6
+        );
+        this.wall_time = approach(this.wall_time, 0, 4);
+        this.sounds.bell.play();
       } else {
+        new_y = approach(
+          this.sprites.wallShadow.y,
+          64,
+          2
+        );
+        this.wall_time = approach(this.wall_time, 0, 2);
       }
+      this.wall_time_count = 0;
+      this.game.add.tween(this.sprites.wallShadow).to(
+        {
+          y: new_y,
+          alpha: (64 - new_y) / 64
+        },
+        300,
+        Phaser.Easing.Cubic.Out,
+        true,
+        0,
+        0,
+        false
+      );
 
       // Kills current door set
       tempDoorL = this.sprites.doorL;
@@ -845,45 +892,222 @@ namespace LD42 {
       this.wall_time_count += 1;
       if (this.wall_time_count % 60 == 0) {
         this.wall_time += 1;
+        this.overall_time += 1;
       }
 
-      // Update wall overlay
-      if (this.sprites.wallShadow.y > 0) {
-        this.sprites.wallShadow.alpha = this.wall_time / 64;
-        this.sprites.wallShadow.y = 64 - this.wall_time;
-        this.sounds.wall_loop.volume = .5 * (this.wall_time / 64);
-      }
+      // Checks if game over
+      if (this.wall_time === this.wall_time_max) {
+        // Stop dial
+        this.sprites.dial.direction = 0;
 
-      if (Math.abs(this.sprites.dial.turn) > 0) {
-        let tempVals = this.lock_values[this.lock],
+        // Lowers sound volume
+        this.game.add.tween(this.sounds.song).to(
+          {
+            volume: 0.1
+          },
+          500,
+          Phaser.Easing.Linear.None,
+          true,
+          0,
+          0,
+          false
+        );
+
+        this.game.add.tween(this.sounds.wall_loop).to(
+          {
+            volume: 0
+          },
+          100,
+          Phaser.Easing.Linear.None,
+          true,
+          0,
+          0,
+          false
+        );
+
+        // Set wall overlay
+        this.sprites.wallShadow.alpha = 1;
+        this.sprites.wallShadow.y = 0;
+        this.status = 2;
+
+        // Sets game over
+        this.drawGameOverScreen();
+      } else {
+        // Update wall overlay
+        if (this.sprites.wallShadow.y > 0) {
+          this.sprites.wallShadow.alpha = this.wall_time / this.wall_time_max;
+          this.sprites.wallShadow.y = this.wall_time_max - this.wall_time;
+          this.sounds.wall_loop.volume = .5 * (this.wall_time / this.wall_time_max);
+        }
+
+        if (Math.abs(this.sprites.dial.turn) > 0) {
+          let tempVals = this.lock_values[this.lock],
             tempTurn = this.sprites.dial.turn,
             tempSign = Math.sign(tempVals),
             tempMove;
 
-        // Shift value
-        if (Math.sign(tempVals) === Math.sign(tempTurn)) {
-          tempMove = approach(Math.abs(tempVals), 0, Math.abs(tempTurn));
-        } else {
-          tempMove = Math.abs(tempVals) + Math.abs(tempTurn);
-        }
+          // Shift value
+          if (Math.sign(tempVals) === Math.sign(tempTurn)) {
+            tempMove = approach(Math.abs(tempVals), 0, Math.abs(tempTurn));
+          } else {
+            tempMove = Math.abs(tempVals) + Math.abs(tempTurn);
+          }
 
-        // Update array value
-        this.lock_values[this.lock] = tempMove * tempSign;
+          // Update array value
+          this.lock_values[this.lock] = tempMove * tempSign;
 
-        // Checks if we're unlocked or not
-        if (tempMove === 0) {
-          this.unlockValue();
-        } else {
-          // Update text
-          this.ui.label_1.text = this.setLabelValue(this.lock_values[this.lock]);
+          // Checks if we're unlocked or not
+          if (tempMove === 0) {
+            this.unlockValue();
+          } else {
+            // Update text
+            this.ui.label_1.text = this.setLabelValue(this.lock_values[this.lock]);
+          }
         }
       }
     }
 
-    statusUnlock() {
+    /**
+     * Draws the game over screen.
+     */
+    drawGameOverScreen() {
+      // Game Over text
+      this.ui.over_text = this.game.add.bitmapText(
+        0,
+        0,
+        "yx_ui",
+        "GAME OVER",
+        10
+      );
+      this.ui.over_text.anchor.setTo(0.5, 0.5);
+      this.ui.over_text.x = this.world.centerX;
+      this.ui.over_text.y = this.world.centerY;
+      this.ui.over_text.alpha = 0;
+      this.ui.over_text.tint = 0xff0000;
+      this.game.add.tween(this.ui.over_text).to(
+        {
+          y: 5,
+          alpha: 1
+        },
+        500,
+        Phaser.Easing.Exponential.Out,
+        true,
+        0,
+        0,
+        false
+      );
+
+      // Score and time
+      this.ui.score_text = this.game.add.bitmapText(
+        0,
+        0,
+        "yx_ui",
+        `DOORS: ${this.unlocked}\nTIME: ${this.overall_time}`,
+        10
+      );
+      this.ui.score_text.align = "center";
+      this.ui.score_text.anchor.setTo(0.5, 0.5);
+      this.ui.score_text.x = this.world.centerX;
+      this.ui.score_text.y = this.world.centerY + 16;
+      this.ui.score_text.alpha = 0;
+      this.ui.score_text.tint = 0xffff00;
+      this.game.add.tween(this.ui.score_text).to(
+        {
+          y: this.world.centerY + 1,
+          alpha: 1
+        },
+        500,
+        Phaser.Easing.Exponential.Out,
+        true,
+        0,
+        0,
+        false
+      );
+
+      // Press Enter text
+      this.ui.start_text = this.game.add.bitmapText(
+        0,
+        0,
+        "envy_code_r",
+        "Press Enter",
+        12
+      );
+      this.ui.start_text.anchor.setTo(0.5, 0.5);
+      this.ui.start_text.x = this.world.centerX;
+      this.ui.start_text.y = this.world.centerY + 64;
+      this.ui.start_text.alpha = 0;
+      this.ui.start_text.tint = 0xcccccc;
+      this.game.add.tween(this.ui.start_text).to(
+        {
+          y: 56,
+          alpha: 1
+        },
+        500,
+        Phaser.Easing.Exponential.Out,
+        true,
+        0,
+        0,
+        false
+      ).onComplete.add(function() {
+        this.status = 3;
+      }, this);
     }
 
-    statusOver() {
+    /**
+     * The game is over! :(
+     */
+    itIsOver() {
+      // Extract objects keys
+      let keysSprites = Object.keys(this.sprites);
+      let keysLabels  = Object.keys(this.ui);
+
+      // Plays the start sound
+      this.sounds.start.play();
+
+      // Fade sprites
+      for (let key of keysSprites) {
+        this.game.add.tween(this.sprites[key]).to(
+          {
+            alpha: 0
+          },
+          800,
+          Phaser.Easing.Linear.None,
+          true,
+          0,
+          0,
+          false
+        );
+      }
+
+      // Fade labels
+      for (let key of keysLabels) {
+        this.game.add.tween(this.ui[key]).to(
+          {
+            alpha: 0
+          },
+          800,
+          Phaser.Easing.Linear.None,
+          true,
+          0,
+          0,
+          false
+        );
+      }
+
+      // Fade sound
+      this.game.add.tween(this.sounds.song).to(
+        {
+          volume: 0
+        },
+        800,
+        Phaser.Easing.Linear.None,
+        true,
+        0,
+        0,
+        false
+      ).onComplete.add(function() {
+        this.state.start("Title");
+      }, this);
     }
 
     // Lifecycle Methods
@@ -909,12 +1133,21 @@ namespace LD42 {
           this.statusPlay();
           break;
         case 2:
+          // General waiting status
+          // Nothing to be done here
           break;
         case 3:
-          break;
-        case 4:
-          break;
-        case 5:
+          // Blink press start text
+          this.ui.start_text.alpha = 0.6 * Math.abs(Math.sin(this.game.time.now / 128));
+
+          // Set enter action
+          if (this.controller.controls.start.pressed) {
+            // Set status
+            this.status = 2;
+
+            // Fade out and go to home
+            this.itIsOver();
+          }
           break;
         default:
           this.statusInit();

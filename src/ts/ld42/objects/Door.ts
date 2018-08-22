@@ -1,6 +1,11 @@
 namespace LD42 {
   /**
+   * UNLOCKR : LD42/Objects/Door
+   * --------------------------------------------------------------------
+   * A door sprite.
    *
+   * @author    Fabio Y. Goto <lab@yuiti.com.br>
+   * @since     0.0.1
    */
   export class Door extends Phaser.Sprite {
     // Properties
@@ -68,7 +73,6 @@ namespace LD42 {
         let move = (this.rightSide)
             ? this.x + this.width
             : this.x - this.width;
-
         this.game.add.tween(this).to(
           {
             x: move
@@ -110,15 +114,6 @@ namespace LD42 {
           false
         );
       }
-    }
-
-    // Lifecycle Methods
-    // ------------------------------------------------------------------
-
-    /**
-     *
-     */
-    update() {
     }
   }
 }

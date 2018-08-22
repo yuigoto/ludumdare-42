@@ -19,10 +19,22 @@ namespace LD42 {
           description = document.getElementById("ld42-description"),
           controls    = document.getElementById("ld42-controls"),
           copy        = document.getElementById("ld42-copy");
-      name.innerHTML        = `${GameInfo.title} <small>v${GameInfo.version}</small>`;
-      description.innerHTML = GameInfo.description;
-      controls.innerHTML    = GameInfo.controls;
-      copy.innerHTML        = GameInfo.copyright;
+
+      if (name) {
+        name.innerHTML = `${GameInfo.title} <small>v${GameInfo.version}</small>`;
+      }
+
+      if (description) {
+        description.innerHTML = GameInfo.description;
+      }
+
+      if (controls) {
+        controls.innerHTML = GameInfo.controls;
+      }
+
+      if (copy) {
+        copy.innerHTML = GameInfo.copyright;
+      }
 
       // Define states
       this.state.add("Boot", Boot, false);
