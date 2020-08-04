@@ -1,4 +1,4 @@
-# Ludum Dare 39 + LOWREZJAM 2018 | UNLOCKR
+# Ludum Dare 42 + LOWREZJAM 2018 | UNLOCKR
 
 > My entry for Ludum Dare 42 + LOWREZJAM2018, made with Phaser + TypeScript.
 
