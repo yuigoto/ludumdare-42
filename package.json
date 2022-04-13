@@ -19,7 +19,7 @@
   "author": "Fabio Y. Goto <lab@yuiti.com.br>",
   "license": "MIT",
   "dependencies": {
-    "async": "^2.6.1",
+    "async": "^3.2.2",
     "copy": "^0.3.2",
     "dat.gui": "^0.7.2",
     "dotenv": "^6.0.0",
